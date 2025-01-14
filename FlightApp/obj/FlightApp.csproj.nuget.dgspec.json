@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Ngee Ann Poly\\Y1S2\\Programming II\\Assignment\\My Workspace\\FlightApp\\FlightApp.csproj": {}
+    "D:\\Ngee Ann Poly\\Y1S2\\Programming II\\Assignment\\My workspace\\FlightApp\\FlightApp.csproj": {}
   },
   "projects": {
-    "D:\\Ngee Ann Poly\\Y1S2\\Programming II\\Assignment\\My Workspace\\FlightApp\\FlightApp.csproj": {
+    "D:\\Ngee Ann Poly\\Y1S2\\Programming II\\Assignment\\My workspace\\FlightApp\\FlightApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Ngee Ann Poly\\Y1S2\\Programming II\\Assignment\\My Workspace\\FlightApp\\FlightApp.csproj",
+        "projectUniqueName": "D:\\Ngee Ann Poly\\Y1S2\\Programming II\\Assignment\\My workspace\\FlightApp\\FlightApp.csproj",
         "projectName": "FlightApp",
-        "projectPath": "D:\\Ngee Ann Poly\\Y1S2\\Programming II\\Assignment\\My Workspace\\FlightApp\\FlightApp.csproj",
+        "projectPath": "D:\\Ngee Ann Poly\\Y1S2\\Programming II\\Assignment\\My workspace\\FlightApp\\FlightApp.csproj",
         "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
         "outputPath": "D:\\Ngee Ann Poly\\Y1S2\\Programming II\\Assignment\\My Workspace\\FlightApp\\obj\\",
         "projectStyle": "PackageReference",

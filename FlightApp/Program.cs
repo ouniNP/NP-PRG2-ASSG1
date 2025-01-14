@@ -2,3 +2,5 @@
 Console.WriteLine("Hello, World!");
 Console.WriteLine("i was here");
 Console.WriteLine("Hello!");
+
+Shape shape1 = new Shape("blue",20);

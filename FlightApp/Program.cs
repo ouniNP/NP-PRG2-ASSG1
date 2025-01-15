@@ -17,47 +17,47 @@ void MainMenu()
 }
 
 
-//Feature 1
+//Feature 1 : yinuo
 void LoadAirlinesAndBoardingGates() 
 {
 
 }
-//Feature 2
+//Feature 2 : hongyi
 void LoadFlights()
 {
 
 }
-//Feature 3
+//Feature 3 : hongyi
 void DisplayFlights()
 {
 
 }
-//Feature 4
+//Feature 4 : yinuo
 void DisplayBoardingGates()
 {
 
 }
-//Feature 5
+//Feature 5 : hongyi
 void AssignBoardingGateToFlight()
 {
 
 }
-//Feature 6
+//Feature 6 : hongyi
 void CreateFlight()
 {
 
 }
-//Feature 7
+//Feature 7 : yinuo
 void DisplayFullFlightDetails()
 {
 
 }
-//Feature 8
+//Feature 8 : yinuo
 void ModifyFlightDetails()
 {
 
 }
-//Feature 9
+//Feature 9 : hongyi
 void DisplayScheduledFlights()
 {
 

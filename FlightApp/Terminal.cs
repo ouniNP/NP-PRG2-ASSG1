@@ -13,5 +13,40 @@ namespace FlightApp
         public Dictionary<string, Airline> Airlines { get; set; } = new Dictionary<string, Airline>();
 
         public Dictionary<string, Flight> Flights { get; set; } = new Dictionary<string, Flight>();
+
+        public Dictionary<string, BoardingGate> BoardingGates { get; set; } = new Dictionary<string, BoardingGate>();
+        public Dictionary<string, double> GateFees { get; set; } = new Dictionary<string, double>();
+
+        public Terminal() { }
+
+        public Terminal(string terminalName)
+        {
+            terminalName = terminalName;
+        }
+
+        public bool AddAirline(Airline airline)
+        {
+            return true;
+        }
+
+        public bool AddBoardingGate(BoardingGate boardingGate)
+        {
+            return true;
+        }
+
+        public Airline GetAirlineFromFlight(Airline airline)
+        {
+            return airline;
+        }
+
+        public void PrintAirlineFees()
+        {
+
+        }
+
+        public override string ToString()
+        {
+            return $"";
+        }
     }
 }

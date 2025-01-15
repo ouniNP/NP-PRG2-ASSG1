@@ -10,5 +10,8 @@ namespace FlightApp
     {
         public string TerminalName { get; set; }
 
-        public Dictionary<string , Airline> Airlines { get; set; }
+        public Dictionary<string, Airline> Airlines { get; set; } = new Dictionary<string, Airline>();
+
+        public Dictionary<string, Flight> Flights { get; set; } = new Dictionary<string, Flight>();
+    }
 }

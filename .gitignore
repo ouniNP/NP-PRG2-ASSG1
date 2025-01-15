@@ -5,3 +5,7 @@
 /.vs
 /FlightApp/.vs/FlightApp
 /FlightApp/.vs/ProjectEvaluation
+/FlightApp/obj/Debug/net8.0/FlightApp.AssemblyInfo.cs
+/FlightApp/obj/Debug/net8.0/FlightApp.AssemblyInfoInputs.cache
+/FlightApp/obj/Debug/net8.0/FlightApp.assets.cache
+/FlightApp/obj/Debug/net8.0/FlightApp.GeneratedMSBuildEditorConfig.editorconfig

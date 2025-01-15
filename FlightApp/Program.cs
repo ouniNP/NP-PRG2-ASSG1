@@ -17,7 +17,50 @@ void MainMenu()
 }
 
 
+//Feature 1
+void LoadAirlinesAndBoardingGates() 
+{
 
+}
+//Feature 2
+void LoadFlights()
+{
 
+}
+//Feature 3
+void DisplayFlights()
+{
+
+}
+//Feature 4
+void DisplayBoardingGates()
+{
+
+}
+//Feature 5
+void AssignBoardingGateToFlight()
+{
+
+}
+//Feature 6
+void CreateFlight()
+{
+
+}
+//Feature 7
+void DisplayFullFlightDetails()
+{
+
+}
+//Feature 8
+void ModifyFlightDetails()
+{
+
+}
+//Feature 9
+void DisplayScheduledFlights()
+{
+
+}
 //Main Program
 MainMenu();

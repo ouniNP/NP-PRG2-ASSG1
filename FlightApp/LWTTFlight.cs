@@ -8,7 +8,7 @@ namespace FlightApp
 {
     class LWTTFlight : Flight
     {
-        public double RequestFee { get; set; };
+        public double RequestFee { get; set; }
 
         public override double CalculateFees()
         {

@@ -42,7 +42,7 @@ void LoadAirlinesAndBoardingGates()
         while ((line = boardingGatesReader.ReadLine()) != null)
         {
             string[] data = line.Split(",");
-            BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[1]), bool.Parse(data[2]), null);
+            BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[1]), bool.Parse(data[2]));
         }
     }
 

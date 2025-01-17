@@ -43,7 +43,7 @@ namespace FlightApp
 
         public override string ToString()
         {
-            return "";
+            return $"Airline Name: {Name.PadRight(10)} Code: {Code.PadRight(5)} Flights: {Flights.Values}";
         }
 
 

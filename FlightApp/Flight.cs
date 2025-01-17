@@ -20,7 +20,7 @@ namespace FlightApp
 
         public override string ToString()
         {
-            throw new NotImplementedException();
+            return $"";
         }
     }
 }

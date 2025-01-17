@@ -16,12 +16,12 @@ namespace FlightApp
 
         public BoardingGate() { }
 
-        public BoardingGate(string gatename, bool supportscfft, bool supportsddjb, bool supportslwtt, Flight flight)
+        public BoardingGate(string gatename, bool supportsDDJB, bool supportsCFFT, bool supportsLWTT, Flight flight)
         {
             GateName = gatename;
-            SupportsCFFT = supportscfft;
-            SupportsDDJB = supportsddjb;
-            SupportsLWTT = supportslwtt;
+            SupportsDDJB = supportsDDJB;
+            SupportsCFFT = supportsCFFT;
+            SupportsLWTT = supportsLWTT;
             Flight = flight;
         }
 

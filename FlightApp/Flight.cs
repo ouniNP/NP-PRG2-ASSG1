@@ -16,6 +16,20 @@ namespace FlightApp
 
         public string Status { get; set; }
 
+        public Flight()
+        {
+            FlightNumber = "";
+            Origin = "";
+            Destination = "";
+            ExpectedTime = DateTime.Now;
+        }
+        public Flight(string flightNumber, string origin, string destination, DateTime expectedTime)
+        {
+            FlightNumber = flightNumber;
+            Origin = origin;
+            Destination = destination;
+            ExpectedTime = expectedTime;
+        }
         public abstract double CalculateFees();
 
         public override string ToString()

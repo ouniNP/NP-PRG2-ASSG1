@@ -1,6 +1,8 @@
 ﻿
 
 //Functions
+using FlightApp;
+
 void MainMenu()
 {
     Console.WriteLine("=============================================");
@@ -20,6 +22,29 @@ void MainMenu()
 //Feature 1 : yinuo
 void LoadAirlinesAndBoardingGates() 
 {
+    string AIRLINESCSVPATH = "..\\..\\..\\..\\data\\airlines.csv";
+    string BOARDINGGATESCSVPATH = "..\\..\\..\\..\\data\\boardingGates.csv";
+    using (StreamReader airlinesReader = new StreamReader(AIRLINESCSVPATH))
+    {
+        string? line;
+        airlinesReader.ReadLine(); // skip the header
+        while ((line = airlinesReader.ReadLine()) != null)
+        {
+            string[] data = line.Split(",");
+            Airline airline = new Airline(data[0], data[1], new Dictionary<string, Flight>());
+        }
+    }
+
+    using (StreamReader boardingGatesReader = new StreamReader(BOARDINGGATESCSVPATH))
+    {
+        string? line;
+        boardingGatesReader.ReadLine(); //skip the header
+        while ((line = boardingGatesReader.ReadLine()) != null)
+        {
+            string[] data = line.Split(",");
+            BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[1]), bool.Parse(data[2]), null);
+        }
+    }
 
 }
 //Feature 2 : hongyi
@@ -62,5 +87,8 @@ void DisplayScheduledFlights()
 {
 
 }
+
+
 //Main Program
 MainMenu();
+LoadAirlinesAndBoardingGates();

@@ -6,10 +6,21 @@ using System.Threading.Tasks;
 
 namespace FlightApp
 {
-    internal class DDJBFlight
+    class DDJBFlight : Flight
     {
         public double RequestFee { get; set; }
-        public double CalculateFees()
+
+        public DDJBFlight() { }
+
+        public DDJBFlight(string flightNumber, string origin, string destination, DateTime expectedTime, double requestFee) : base(flightNumber, origin, destination, expectedTime)
+        {
+            FlightNumber = flightNumber;
+            Origin = origin;
+            Destination = destination;
+            ExpectedTime = expectedTime;
+            RequestFee = requestFee;
+        }
+        public override double CalculateFees()
         {
             throw new NotImplementedException();
         }

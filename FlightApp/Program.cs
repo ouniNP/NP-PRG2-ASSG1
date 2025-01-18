@@ -50,7 +50,21 @@ void LoadAirlinesAndBoardingGates()
 //Feature 2 : hongyi
 void LoadFlights()
 {
-
+    Dictionary<string,Flight> flightsdict = new Dictionary<string, Flight>();
+    using (StreamReader flightsreader = new StreamReader("..\\..\\..\\..\\data\\flights.csv"))
+    {
+        string? line;
+        flightsreader.ReadLine(); //reads the header 
+        while ((line = flightsreader.ReadLine()) != null)
+        {
+            string[] strings = line.Split(",");
+            string flightnumber = strings[0];
+            string origin = strings[1];
+            string destination = strings[2];
+            DateTime expectedtime = Convert.ToDateTime(strings[3]);
+            string specialrequestcode = strings[4];
+        }
+    }
 }
 //Feature 3 : hongyi
 void DisplayFlights()
@@ -92,3 +106,5 @@ void DisplayScheduledFlights()
 //Main Program
 MainMenu();
 LoadAirlinesAndBoardingGates();
+LoadFlights();
+

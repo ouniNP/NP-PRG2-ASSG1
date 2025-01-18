@@ -14,13 +14,12 @@ namespace FlightApp
             throw new NotImplementedException();
         }
 
-        public CFFTFlight(string flightNumber, string origin, string destination, DateTime expectedTime, string status, double requestFee) : base(flightNumber,origin,destination,expectedTime)
+        public CFFTFlight(string flightNumber, string origin, string destination, DateTime expectedTime, double requestFee) : base(flightNumber,origin,destination,expectedTime)
         {
             FlightNumber = flightNumber;
             Origin = origin;
             Destination = destination;
             ExpectedTime = expectedTime;
-            Status = status;
             RequestFee = requestFee;
         }
         public override string ToString()

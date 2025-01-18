@@ -10,6 +10,16 @@ namespace FlightApp
     {
         public double RequestFee { get; set; }
 
+        public LWTTFlight() { }
+
+        public LWTTFlight(string flightNumber, string origin, string destination, DateTime expectedTime, double requestFee) : base(flightNumber, origin, destination, expectedTime)
+        {
+            FlightNumber = flightNumber;
+            Origin = origin;
+            Destination = destination;
+            ExpectedTime = expectedTime;
+            RequestFee = requestFee;
+        }
         public override double CalculateFees()
         {
             throw new NotImplementedException();

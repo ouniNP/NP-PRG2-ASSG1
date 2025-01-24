@@ -28,7 +28,12 @@ namespace FlightApp
 
         public bool AddFlight(Flight flight)
         {
-            return true;
+            if (!Flights.ContainsKey(flight.FlightNumber))
+            {
+                Flights.Add(flight.FlightNumber, flight))
+                return true; //returns true upon successful addition of the flight
+            }
+            return false; //return false if unsucccessful addition  of the flight
         }
 
         public double CalculateFees()
@@ -38,7 +43,13 @@ namespace FlightApp
 
         public bool RemoveFlight(Flight flight)
         {
-            return true;
+            if (Flights.ContainsKey(flight.FlightNumber))
+            {
+                Flights.Remove(flight.FlightNumber);
+                return true; //returns true upon successful removal of the flight
+            }
+            return false;//return false if unsucccessful removal of the flight
+
         }
 
         public override string ToString()

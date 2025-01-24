@@ -1,13 +1,14 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FlightApp
 {
-    abstract class Flight
+    abstract class Flight : Airline
     {
         public string FlightNumber { get; set; }
         public string Origin { get; set; }
@@ -18,11 +19,8 @@ namespace FlightApp
 
         public Flight()
         {
-            FlightNumber = "";
-            Origin = "";
-            Destination = "";
-            ExpectedTime = DateTime.Now;
         }
+        //note to self: implement data validation for expected time (dd/MM/yyyy HH:mm)
         public Flight(string flightNumber, string origin, string destination, DateTime expectedTime)
         {
             FlightNumber = flightNumber;
@@ -30,7 +28,11 @@ namespace FlightApp
             Destination = destination;
             ExpectedTime = expectedTime;
         }
-        public abstract double CalculateFees();
+        public virtual double CalculateFees()
+        {
+            throw new NotImplementedException();
+        }
+
 
         public override string ToString()
         {

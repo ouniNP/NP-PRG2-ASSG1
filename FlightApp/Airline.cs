@@ -51,7 +51,7 @@ namespace FlightApp
                     Discount += 25;
                 }
 
-                if (!(flight is CFFTFlight) && !(flight is DDJBFlight) && !(flight is LWTTFlight)) //checks for special requests
+                if (flight is NORMFlight) //checks for special requests
                 {
                     Discount += 50;
                 }

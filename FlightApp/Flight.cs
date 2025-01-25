@@ -30,13 +30,28 @@ namespace FlightApp
         }
         public virtual double CalculateFees()
         {
-            throw new NotImplementedException();
+            const double BOARDING_GATE_BASE_FEE = 300;
+            double totalFees = 0;
+            if (this.Destination.ToUpper().Contains("SIN"))
+            {
+                totalFees = BOARDING_GATE_BASE_FEE + 500;
+                return totalFees;
+            }
+            else if (this.Origin.ToUpper().Contains("SIN"))
+            {
+                totalFees = BOARDING_GATE_BASE_FEE + 800;
+                return totalFees;
+            }
+            else
+            {
+                throw new Exception("Invalid operation: Your flight does NOT arrive to SIN/depart from SIN.");
+            }
         }
 
 
         public override string ToString()
         {
-            return $"";
+            return $"Flight number: {this.FlightNumber} Origin: {this.Origin} Destination: {this.Destination} Expected Time: {this.ExpectedTime}";
         }
     }
 }

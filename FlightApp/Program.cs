@@ -24,6 +24,10 @@ void LoadAirlinesAndBoardingGates()
 {
     string AIRLINESCSVPATH = "..\\..\\..\\..\\data\\airlines.csv";
     string BOARDINGGATESCSVPATH = "..\\..\\..\\..\\data\\boardingGates.csv";
+    
+    List<Airline> loadedAirlines = new List<Airline>();
+    List<BoardingGate> loadedBoardingGates = new List<BoardingGate>();
+
     using (StreamReader airlinesReader = new StreamReader(AIRLINESCSVPATH))
     {
         string? line;
@@ -31,8 +35,10 @@ void LoadAirlinesAndBoardingGates()
         while ((line = airlinesReader.ReadLine()) != null)
         {
             string[] data = line.Split(",");
-            Airline airline = new Airline(data[0], data[1], new Dictionary<string, Flight>());
+            Airline airline = new Airline(data[0], data[1]);
+            loadedAirlines.Add(airline);
         }
+        Console.WriteLine($"{loadedAirlines.Count} Airlines Loaded!");
     }
 
     using (StreamReader boardingGatesReader = new StreamReader(BOARDINGGATESCSVPATH))
@@ -43,7 +49,9 @@ void LoadAirlinesAndBoardingGates()
         {
             string[] data = line.Split(",");
             BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[1]), bool.Parse(data[2]), bool.Parse(data[3]));
+            loadedBoardingGates.Add(boardingGate);
         }
+        Console.WriteLine($"{loadedBoardingGates.Count} Boarding Gates Loaded!");
     }
 
 }

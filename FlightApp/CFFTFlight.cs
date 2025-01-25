@@ -36,6 +36,7 @@ namespace FlightApp
             Origin = origin;
             Destination = destination;
             ExpectedTime = expectedTime;
+            RequestFee = this.RequestFee;
         }
         public override string ToString()
         {

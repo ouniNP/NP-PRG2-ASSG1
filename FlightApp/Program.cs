@@ -62,6 +62,7 @@ void LoadFlights()
     using (StreamReader flightsreader = new StreamReader("..\\..\\..\\..\\data\\flights.csv"))
     {
         string? line;
+        Flight flight;
         flightsreader.ReadLine(); //reads the header 
         while ((line = flightsreader.ReadLine()) != null)
         {
@@ -70,7 +71,29 @@ void LoadFlights()
             string origin = strings[1];
             string destination = strings[2];
             DateTime expectedtime = Convert.ToDateTime(strings[3]);
-            string specialrequestcode = strings[4];
+            string? specialrequestcode = strings[4];
+            if (specialrequestcode == "LWTT")
+            {
+                 flight = new LWTTFlight(flightnumber,origin,destination,expectedtime);
+            }
+            else if (specialrequestcode == "DDJB")
+            {
+                 flight = new DDJBFlight(flightnumber, origin, destination, expectedtime);
+            }
+            else if (specialrequestcode == "CFFT")
+            {
+                 flight = new CFFTFlight(flightnumber, origin, destination, expectedtime);
+            }
+            else
+            {
+                 flight = new NORMFlight(flightnumber, origin, destination, expectedtime);
+            }
+            flightsdict.Add(flightnumber, flight);
+        }
+        //test code
+        foreach (Flight f in flightsdict.Values)
+        {
+            Console.WriteLine(f);
         }
     }
 }

@@ -8,23 +8,38 @@ namespace FlightApp
 {
     class CFFTFlight : Flight
     {
-        public double RequestFee { get; set; }
+        public double RequestFee { get; } = 150;
         public override double CalculateFees()
         {
-            throw new NotImplementedException();
+            const double BOARDING_GATE_BASE_FEE = 300;
+            double totalFees = 0;
+            if (this.Destination.ToUpper().Contains("SINGAPORE"))
+            {
+                totalFees = BOARDING_GATE_BASE_FEE + 500 + RequestFee;
+                return totalFees;
+            }
+            else if (this.Origin.ToUpper().Contains("SINGAPORE"))
+            {
+                totalFees = BOARDING_GATE_BASE_FEE + 800 + RequestFee;
+                return totalFees;
+            }
+            else
+            {
+                throw new Exception("Invalid operation: Your flight does NOT arrive to SIN/depart from SIN.");
+            }
+
         }
 
-        public CFFTFlight(string flightNumber, string origin, string destination, DateTime expectedTime, double requestFee) : base(flightNumber,origin,destination,expectedTime)
+        public CFFTFlight(string flightNumber, string origin, string destination, DateTime expectedTime) : base(flightNumber,origin,destination,expectedTime)
         {
             FlightNumber = flightNumber;
             Origin = origin;
             Destination = destination;
             ExpectedTime = expectedTime;
-            RequestFee = requestFee;
         }
         public override string ToString()
         {
-            return base.ToString();
+            return base.ToString() + $"Flight type: {this.GetType().Name}";
         }
     }
 }

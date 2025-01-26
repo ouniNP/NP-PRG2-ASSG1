@@ -5,3 +5,4 @@
 .vs/
 obj/
 bin/
+/FlightApp/bin/Debug/net8.0/FlightApp.deps.json

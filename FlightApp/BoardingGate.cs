@@ -32,7 +32,7 @@ namespace FlightApp
 
         public override string ToString()
         {
-            return $"{GateName";
+            return $"{this.GateName.PadRight(16)}{this.SupportsCFFT.ToString().PadRight(23)}{this.SupportsDDJB.ToString().PadRight(23)}{this.SupportsLWTT.ToString()}";
         }
     }
 }

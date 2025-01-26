@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FlightApp
 {
-    abstract class Flight : Airline
+    class Flight : Airline
     {
         public string FlightNumber { get; set; }
         public string Origin { get; set; }

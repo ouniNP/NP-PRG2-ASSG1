@@ -1,4 +1,9 @@
-﻿
+﻿//==========================================================
+// Student Number : S10265849
+// Student Name	  : Teo Hong Yi
+// Partner Name	  : Wang Yi Nuo
+//==========================================================
+
 
 //Functions
 using FlightApp;

@@ -1,4 +1,10 @@
-﻿using System;
+﻿//==========================================================
+// Student Number : S10265849
+// Student Name	  : Teo Hong Yi
+// Partner Name	  : Wang Yi Nuo
+//==========================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

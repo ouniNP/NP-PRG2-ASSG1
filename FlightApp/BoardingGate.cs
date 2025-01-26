@@ -27,12 +27,12 @@ namespace FlightApp
 
         public double CalculateFees()
         {
-            return 0;
+            return Flight.CalculateFees(); //not sure about this line 
         }
 
         public override string ToString()
         {
-            return $"";
+            return $"{GateName";
         }
     }
 }

@@ -64,6 +64,7 @@ void LoadFlights()
         string? line;
         Flight flight;
         flightsreader.ReadLine(); //reads the header
+        Console.WriteLine("Loading Flights...");
         while ((line = flightsreader.ReadLine()) != null)
         {
             string[] strings = line.Split(",");
@@ -90,11 +91,7 @@ void LoadFlights()
             }
             flightsdict.Add(flightnumber, flight);
         }
-        //test code
-        /*foreach (Flight f in flightsdict.Values)
-        {
-            Console.WriteLine(f);
-        }*/
+        Console.WriteLine($"{flightsdict.Count} Flights Loaded!");
     }
 }
 //Feature 3 : hongyi

@@ -128,60 +128,50 @@ void CreateFlight()
 void DisplayFullFlightDetails(Dictionary<string, Airline> loadedAirlines)
 {
     string selectedAirlineCode;
+    Console.WriteLine("=============================================");
+    Console.WriteLine("List of Flights for Changi Airport Terminal 5");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("Airline Code    Airline Name");
+    foreach (KeyValuePair<string, Airline> airline in loadedAirlines)
+    {
+        Console.WriteLine($"{airline.Key.ToString().PadRight(16)}{airline.Key.ToString()}");
+    }
     while (true)
     {
-        Console.WriteLine("=============================================");
-        Console.WriteLine("List of Flights for Changi Airport Terminal 5");
-        Console.WriteLine("=============================================");
-        Console.WriteLine("Airline Code    Airline Name");
-        foreach (KeyValuePair<string, Airline> airline in loadedAirlines)
+        try
         {
-            Console.WriteLine($"{airline.Key.ToString().PadRight(16)}{airline.Key.ToString()}");
+            Console.Write("Enter Airline Code: ");
+            selectedAirlineCode = Console.ReadLine();
+            break;
         }
-        while (true)
+        catch (FormatException fe)
         {
-            try
-            {
-                Console.Write("Enter Airline Code: ");
-                selectedAirlineCode = Console.ReadLine();
-                break;
-            }
-            catch (FormatException fe)
-            {
-                Console.WriteLine(fe.Message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
+            Console.WriteLine(fe.Message);
         }
-
-        while (true)
+        catch (Exception e)
         {
-            foreach (Airline airline in loadedAirlines.Values)
-            {
-                if (selectedAirlineCode == airline.Code)
-                {
-                    Airline airlineQuery = airline;
-                    Console.WriteLine("=============================================");
-                    Console.WriteLine($"Airline Name: {airlineQuery.Name}");
-                    Console.WriteLine("=============================================");
-                    Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
-                    Console.WriteLine(airlineQuery.Flights);
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid Airline Code, try again.");
-                    break;
-                }
-            }
+            Console.WriteLine(e.Message);
         }
-        
     }
-    
 
-
+    foreach (Airline airline in loadedAirlines.Values)
+    {
+        if (selectedAirlineCode == airline.Code)
+        {
+            Airline airlineQuery = airline;
+            Console.WriteLine("=============================================");
+            Console.WriteLine($"Airline Name: {airlineQuery.Name}");
+            Console.WriteLine("=============================================");
+            Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
+            Console.WriteLine(airlineQuery.Flights);
+            break;
+        }
+        else
+        {
+            Console.WriteLine("Invalid Airline Code, try again.");
+            break;
+        }
+    }
 }
 //Feature 8 : yinuo
 void ModifyFlightDetails()

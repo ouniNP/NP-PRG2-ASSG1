@@ -170,7 +170,7 @@ while (true)
     {
         try
         {
-            Console.Write("Please select your option:");
+            Console.WriteLine("Please select your option:");
             option = Convert.ToInt32(Console.ReadLine());
             break;
 

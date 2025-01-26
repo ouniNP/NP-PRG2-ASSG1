@@ -16,27 +16,26 @@ void MainMenu()
     Console.WriteLine("6. Modify Flight Details");
     Console.WriteLine("7. Display Flight Schedule");
     Console.WriteLine("0. Exit");
+    Console.WriteLine();
 }
 
 
 //Feature 1 : yinuo
-void LoadAirlinesAndBoardingGates() 
+void LoadAirlinesAndBoardingGates(Dictionary<string, Airline> loadedAirlines, Dictionary<string, BoardingGate> loadedBoardingGates) 
 {
     string AIRLINESCSVPATH = "..\\..\\..\\..\\data\\airlines.csv";
     string BOARDINGGATESCSVPATH = "..\\..\\..\\..\\data\\boardingGates.csv";
-    
-    List<Airline> loadedAirlines = new List<Airline>();
-    List<BoardingGate> loadedBoardingGates = new List<BoardingGate>();
 
     using (StreamReader airlinesReader = new StreamReader(AIRLINESCSVPATH))
     {
         string? line;
         airlinesReader.ReadLine(); // skip the header
+        Console.WriteLine("Loading Airlines...");
         while ((line = airlinesReader.ReadLine()) != null)
         {
             string[] data = line.Split(",");
             Airline airline = new Airline(data[0], data[1]);
-            loadedAirlines.Add(airline);
+            loadedAirlines.Add(airline.Code, airline);
         }
         Console.WriteLine($"{loadedAirlines.Count} Airlines Loaded!");
     }
@@ -45,11 +44,12 @@ void LoadAirlinesAndBoardingGates()
     {
         string? line;
         boardingGatesReader.ReadLine(); //skip the header
+        Console.WriteLine("Loading Boarding Gates...");
         while ((line = boardingGatesReader.ReadLine()) != null)
         {
             string[] data = line.Split(",");
             BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[1]), bool.Parse(data[2]), bool.Parse(data[3]));
-            loadedBoardingGates.Add(boardingGate);
+            loadedBoardingGates.Add(boardingGate.GateName, boardingGate);
         }
         Console.WriteLine($"{loadedBoardingGates.Count} Boarding Gates Loaded!");
     }
@@ -63,7 +63,7 @@ void LoadFlights()
     {
         string? line;
         Flight flight;
-        flightsreader.ReadLine(); //reads the header 
+        flightsreader.ReadLine(); //reads the header
         while ((line = flightsreader.ReadLine()) != null)
         {
             string[] strings = line.Split(",");
@@ -91,10 +91,10 @@ void LoadFlights()
             flightsdict.Add(flightnumber, flight);
         }
         //test code
-        foreach (Flight f in flightsdict.Values)
+        /*foreach (Flight f in flightsdict.Values)
         {
             Console.WriteLine(f);
-        }
+        }*/
     }
 }
 //Feature 3 : hongyi
@@ -103,9 +103,16 @@ void DisplayFlights()
 
 }
 //Feature 4 : yinuo
-void DisplayBoardingGates()
+void DisplayBoardingGates(Dictionary<string, BoardingGate> loadedBoardingGates)
 {
-
+    Console.WriteLine("=============================================");
+    Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("Gate Name       DDJB                   CFFT                   LWTT");
+    foreach (BoardingGate boardingGate in loadedBoardingGates.Values)
+    {
+        Console.WriteLine(boardingGate);
+    }
 }
 //Feature 5 : hongyi
 void AssignBoardingGateToFlight()
@@ -133,9 +140,67 @@ void DisplayScheduledFlights()
 
 }
 
+//Feature 10 (personal creation)
+void WhiteSpace()
+{
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+    Console.WriteLine();
+}
+
+//Collections
+Dictionary<string, Airline> loadedAirlines = new Dictionary<string, Airline>();
+Dictionary<string, BoardingGate> loadedBoardingGates = new Dictionary<string, BoardingGate>();
+
+
+
 
 //Main Program
-MainMenu();
-LoadAirlinesAndBoardingGates();
+LoadAirlinesAndBoardingGates(loadedAirlines, loadedBoardingGates);
 LoadFlights();
+WhiteSpace();
+
+//Main Loop
+while (true)
+{
+    MainMenu();
+    int option;
+    while (true)
+    {
+        try
+        {
+            Console.Write("Please select your option:");
+            option = Convert.ToInt32(Console.ReadLine());
+            break;
+
+        }
+        catch (FormatException fe)
+        {
+            Console.WriteLine(fe.Message);
+            Console.WriteLine();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Console.WriteLine();
+        }
+    }
+    if (option == 1)
+    {
+        DisplayFlights();
+        WhiteSpace();
+    }
+    else if (option == 2)
+    {
+        DisplayBoardingGates(loadedBoardingGates);
+        WhiteSpace();
+    }
+    else
+    {
+        Console.WriteLine("Invalid Option, try again.");
+        Console.WriteLine();
+    }
+}
+
 

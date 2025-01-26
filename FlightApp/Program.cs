@@ -124,9 +124,63 @@ void CreateFlight()
 {
 
 }
-//Feature 7 : yinuo
-void DisplayFullFlightDetails()
+//Feature 7 : yinuo (Option 5)
+void DisplayFullFlightDetails(Dictionary<string, Airline> loadedAirlines)
 {
+    string selectedAirlineCode;
+    while (true)
+    {
+        Console.WriteLine("=============================================");
+        Console.WriteLine("List of Flights for Changi Airport Terminal 5");
+        Console.WriteLine("=============================================");
+        Console.WriteLine("Airline Code    Airline Name");
+        foreach (KeyValuePair<string, Airline> airline in loadedAirlines)
+        {
+            Console.WriteLine($"{airline.Key.ToString().PadRight(16)}{airline.Key.ToString()}");
+        }
+        while (true)
+        {
+            try
+            {
+                Console.Write("Enter Airline Code: ");
+                selectedAirlineCode = Console.ReadLine();
+                break;
+            }
+            catch (FormatException fe)
+            {
+                Console.WriteLine(fe.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        while (true)
+        {
+            foreach (Airline airline in loadedAirlines.Values)
+            {
+                if (selectedAirlineCode == airline.Code)
+                {
+                    Airline airlineQuery = airline;
+                    Console.WriteLine("=============================================");
+                    Console.WriteLine($"Airline Name: {airlineQuery.Name}");
+                    Console.WriteLine("=============================================");
+                    Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
+                    Console.WriteLine(airlineQuery.Flights);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Airline Code, try again.");
+                    break;
+                }
+            }
+        }
+        
+    }
+    
+
 
 }
 //Feature 8 : yinuo
@@ -195,6 +249,26 @@ while (true)
     {
         DisplayBoardingGates(loadedBoardingGates);
         WhiteSpace();
+    }
+    else if (option == 3)
+    {
+        throw new NotImplementedException();
+    }
+    else if (option == 4)
+    {
+        throw new NotImplementedException();
+    }
+    else if (option == 5)
+    {
+        DisplayFullFlightDetails(loadedAirlines); //Partial implementation, requires fix
+    }
+    else if (option == 6)
+    {
+        throw new NotImplementedException();
+    }
+    else if (option == 7)
+    {
+        throw new NotImplementedException();
     }
     else
     {

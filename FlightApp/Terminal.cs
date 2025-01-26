@@ -27,7 +27,7 @@ namespace FlightApp
 
         public bool AddAirline(Airline airline)
         {
-            if (!Airlines.ContainsKey(airline))
+            if (!Airlines.ContainsKey(airline.Code))
             {
                 Airlines.Add(airline.Name, airline);
                 return true;
@@ -37,7 +37,7 @@ namespace FlightApp
 
         public bool AddBoardingGate(BoardingGate boardingGate)
         {
-            if (!BoardingGates.ContainsKey(boardingGate))
+            if (!BoardingGates.ContainsKey(boardingGate.GateName))
             {
                 BoardingGates.Add(boardingGate.GateName, boardingGate);
                 return true;
@@ -48,7 +48,18 @@ namespace FlightApp
 
         public Airline GetAirlineFromFlight(Flight flight)
         {
-            return airline.Name.Substring(0, 2);
+            if (flight == null)
+            {
+                throw new ArgumentException("Flight cannot be null.");
+            }
+            foreach (Airline airline in Airlines.Values)
+            {
+                if (airline.Flights.ContainsKey(flight.FlightNumber))
+                {
+                    return airline;
+                }
+            }
+            throw new Exception("Flight not found.");
         }
 
         public void PrintAirlineFees()

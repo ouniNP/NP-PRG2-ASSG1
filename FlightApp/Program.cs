@@ -107,8 +107,9 @@ void AssignFlightToAIrline(Dictionary<string, Flight> FlightsDict , Dictionary<s
         AirlinesDict[AirlineCode].AddFlight(flight);
     }
 }
+
 //Feature 3.2: hongyi
-void DisplayFlights(Dictionary<string, Flight> flightsdict)
+void DisplayFlights(Dictionary<string, Flight> flightsdict, Dictionary<string, Airline> AirlinesDict)
 {
     Console.WriteLine("=============================================");
     Console.WriteLine("List of Flights for Changi Airport Terminal 5");
@@ -116,7 +117,9 @@ void DisplayFlights(Dictionary<string, Flight> flightsdict)
     Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
     foreach (Flight flight in flightsdict.Values)
     {
-        Console.WriteLine(flight);
+        string AirlineCode = flight.FlightNumber.Substring(0, 2);
+        string AirlineName = AirlinesDict[AirlineCode].Name;
+        Console.WriteLine($"{flight.FlightNumber,-16}{AirlineName,-23}{flight.Origin,-23}{flight.Destination,-23}{flight.ExpectedTime}");
     }
 }
 //Feature 4 : yinuo
@@ -252,7 +255,7 @@ while (true)
     }
     if (option == 1)
     {
-        DisplayFlights(FlightsDict);
+        DisplayFlights(FlightsDict,AirlinesDict);
         WhiteSpace();
     }
     else if (option == 2)

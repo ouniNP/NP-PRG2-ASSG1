@@ -151,7 +151,7 @@ void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
     Console.WriteLine("Airline Code    Airline Name");
     foreach (KeyValuePair<string, Airline> airline in AirlinesDict)
     {
-        Console.WriteLine($"{airline.Key.ToString().PadRight(16)}{airline.Key.ToString()}");
+        Console.WriteLine($"{airline.Key.ToString().PadRight(16)}{airline.Value.Name.ToString()}");
     }
     while (true)
     {

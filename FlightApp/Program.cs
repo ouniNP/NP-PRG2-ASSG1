@@ -158,7 +158,7 @@ void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
         try
         {
             Console.Write("Enter Airline Code: ");
-            selectedAirlineCode = Console.ReadLine();
+            selectedAirlineCode = Console.ReadLine().ToUpper();
             break;
         }
         catch (FormatException fe)
@@ -180,7 +180,10 @@ void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
             Console.WriteLine($"Airline Name: {airlineQuery.Name}");
             Console.WriteLine("=============================================");
             Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
-            Console.WriteLine(airlineQuery.Flights);
+            foreach (KeyValuePair <string, Flight> kvp in airlineQuery.Flights)
+            {
+                Console.WriteLine($"{kvp.Value}");
+            }
             break;
         }
         else

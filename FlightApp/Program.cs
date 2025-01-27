@@ -253,7 +253,7 @@ while (true)
     }
     if (option == 1)
     {
-        DisplayFlights(FlightsDict,AirlinesDict);
+        DisplayFlights(FlightsDict, AirlinesDict);
         WhiteSpace();
     }
     else if (option == 2)
@@ -280,6 +280,11 @@ while (true)
     else if (option == 7)
     {
         throw new NotImplementedException();
+    }
+    else if (option == 0)
+    {
+        Console.WriteLine("Goodbye!");
+        break;
     }
     else
     {

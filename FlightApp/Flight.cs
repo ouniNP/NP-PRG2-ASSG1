@@ -58,7 +58,7 @@ namespace FlightApp
 
         public override string ToString()
         {
-            return $"Flight number: {this.FlightNumber} Origin: {this.Origin} Destination: {this.Destination} Expected Time: {this.ExpectedTime}";
+            return $"{FlightNumber}          Singapore Airlines     {Origin}            {Destination}        {ExpectedTime}";
         }
     }
 }

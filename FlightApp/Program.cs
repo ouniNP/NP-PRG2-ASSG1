@@ -61,9 +61,8 @@ void LoadAirlinesAndBoardingGates(Dictionary<string, Airline> loadedAirlines, Di
 
 }
 //Feature 2 : hongyi
-void LoadFlights()
+void LoadFlights(Dictionary<string, Flight> flightsdict)
 {
-    Dictionary<string,Flight> flightsdict = new Dictionary<string, Flight>();
     using (StreamReader flightsreader = new StreamReader("..\\..\\..\\..\\data\\flights.csv"))
     {
         string? line;
@@ -100,9 +99,16 @@ void LoadFlights()
     }
 }
 //Feature 3 : hongyi
-void DisplayFlights()
+void DisplayFlights(Dictionary<string, Flight> flightsdict)
 {
-
+    Console.WriteLine("=============================================");
+    Console.WriteLine("List of Flights for Changi Airport Terminal 5");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
+    foreach (Flight flight in flightsdict.Values)
+    {
+        Console.WriteLine(flight);
+    }
 }
 //Feature 4 : yinuo
 void DisplayBoardingGates(Dictionary<string, BoardingGate> loadedBoardingGates)
@@ -198,13 +204,15 @@ void WhiteSpace()
 //Collections
 Dictionary<string, Airline> loadedAirlines = new Dictionary<string, Airline>();
 Dictionary<string, BoardingGate> loadedBoardingGates = new Dictionary<string, BoardingGate>();
+Dictionary<string, Flight> flightsdict = new Dictionary<string, Flight>();
 
 
 
 
 //Main Program
 LoadAirlinesAndBoardingGates(loadedAirlines, loadedBoardingGates);
-LoadFlights();
+LoadFlights(flightsdict);
+
 WhiteSpace();
 
 //Main Loop
@@ -234,7 +242,7 @@ while (true)
     }
     if (option == 1)
     {
-        DisplayFlights();
+        DisplayFlights(flightsdict);
         WhiteSpace();
     }
     else if (option == 2)

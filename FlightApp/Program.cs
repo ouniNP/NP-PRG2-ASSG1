@@ -104,7 +104,7 @@ void AssignFlightToAIrline(Dictionary<string, Flight> FlightsDict , Dictionary<s
     foreach (Flight flight in FlightsDict.Values)
     {
         string AirlineCode = flight.FlightNumber.Substring(0,2);
-        Console.WriteLine(AirlinesDict[AirlineCode]);
+        AirlinesDict[AirlineCode].AddFlight(flight);
     }
 }
 //Feature 3.2: hongyi

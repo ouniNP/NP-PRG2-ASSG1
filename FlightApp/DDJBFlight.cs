@@ -48,7 +48,7 @@ namespace FlightApp
         }
         public string ToString()
         {
-            return base.ToString();
+            return "DDJB";
         }
     }
 }

@@ -134,10 +134,33 @@ void DisplayBoardingGates(Dictionary<string, BoardingGate> BoardingGateDict)
         Console.WriteLine(boardingGate);
     }
 }
-//Feature 5 : hongyi
-void AssignBoardingGateToFlight()
+//Feature 5 : hongyi (option 3)
+void AssignBoardingGateToFlight(Dictionary<string, Flight> FlightsDict)
 {
-
+    Flight selectedflight = null;
+    string SpecialRequestCode;
+    Console.WriteLine("Enter Flight Number:");
+    string flightnumber = Console.ReadLine();
+    foreach (Flight flight in FlightsDict.Values)
+    {
+        if (flight.FlightNumber == flightnumber)
+        {
+            selectedflight = flight;
+            break;
+        }
+    }
+    Console.WriteLine("Enter Boarding Gate Name:");
+    string boardinggate = Console.ReadLine();
+    Console.WriteLine($"Flight Number: {selectedflight.FlightNumber}");
+    Console.WriteLine($"Origin: {selectedflight.Origin}");
+    Console.WriteLine($"Destination: {selectedflight.Destination}");
+    Console.WriteLine($"Expected Time: {selectedflight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
+    Type FlightType = selectedflight.GetType();
+    if (FlightType is DDJBFlight)
+    {
+        SpecialRequestCode = "DDJB";
+    }
+    Console.WriteLine($"Special Request Code: {selectedflight} ");
 }
 //Feature 6 : hongyi
 void CreateFlight()
@@ -263,7 +286,7 @@ while (true)
     }
     else if (option == 3)
     {
-        throw new NotImplementedException();
+        AssignBoardingGateToFlight(FlightsDict);
     }
     else if (option == 4)
     {

@@ -47,7 +47,7 @@ namespace FlightApp
         }
         public override string ToString()
         {
-            return base.ToString() + $"Flight type: {this.GetType().Name}";
+            return base.ToString();
         }
     }
 }

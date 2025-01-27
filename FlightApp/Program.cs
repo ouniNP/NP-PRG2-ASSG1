@@ -98,7 +98,13 @@ void LoadFlights(Dictionary<string, Flight> flightsdict)
         Console.WriteLine($"{flightsdict.Count} Flights Loaded!");
     }
 }
-//Feature 3 : hongyi
+//Feature 3.1 : hongyi
+void AssignFlightToAIrline(Dictionary<string, Flight> flightsdict , Dictionary<string, Airline> loadedAirlines)
+{
+
+}
+
+//Feature 3.2: hongyi
 void DisplayFlights(Dictionary<string, Flight> flightsdict)
 {
     Console.WriteLine("=============================================");
@@ -202,18 +208,19 @@ void WhiteSpace()
 }
 
 //Collections
-Dictionary<string, Airline> loadedAirlines = new Dictionary<string, Airline>();
-Dictionary<string, BoardingGate> loadedBoardingGates = new Dictionary<string, BoardingGate>();
-Dictionary<string, Flight> flightsdict = new Dictionary<string, Flight>();
-
+Dictionary<string, Airline> AirlinesDict = new Dictionary<string, Airline>();
+Dictionary<string, BoardingGate> BoardingGateDict = new Dictionary<string, BoardingGate>();
+Dictionary<string, Flight> FlightsDict = new Dictionary<string, Flight>();
 
 
 
 //Main Program
-LoadAirlinesAndBoardingGates(loadedAirlines, loadedBoardingGates);
-LoadFlights(flightsdict);
+LoadAirlinesAndBoardingGates(AirlinesDict, BoardingGateDict);
+LoadFlights(FlightsDict);
+AssignFlightToAIrline(FlightsDict, AirlinesDict);
 
 WhiteSpace();
+
 
 //Main Loop
 while (true)
@@ -242,12 +249,12 @@ while (true)
     }
     if (option == 1)
     {
-        DisplayFlights(flightsdict);
+        DisplayFlights(FlightsDict);
         WhiteSpace();
     }
     else if (option == 2)
     {
-        DisplayBoardingGates(loadedBoardingGates);
+        DisplayBoardingGates(BoardingGateDict);
         WhiteSpace();
     }
     else if (option == 3)
@@ -260,7 +267,7 @@ while (true)
     }
     else if (option == 5)
     {
-        DisplayFullFlightDetails(loadedAirlines); //Partial implementation, requires fix
+        DisplayFullFlightDetails(AirlinesDict); //Partial implementation, requires fix
     }
     else if (option == 6)
     {

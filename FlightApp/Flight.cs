@@ -58,7 +58,7 @@ namespace FlightApp
 
         public override string ToString()
         {
-            return $"{FlightNumber}          Singapore Airlines     {Origin}            {Destination}        {ExpectedTime}";
+            return $"{FlightNumber,-10}          Singapore Airlines     {Origin,-10}            {Destination,-10}        {ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}";
         }
     }
 }

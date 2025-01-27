@@ -26,7 +26,7 @@ void MainMenu()
 
 
 //Feature 1 : yinuo
-void LoadAirlinesAndBoardingGates(Dictionary<string, Airline> loadedAirlines, Dictionary<string, BoardingGate> loadedBoardingGates) 
+void LoadAirlinesAndBoardingGates(Dictionary<string, Airline> AirlinesDict, Dictionary<string, BoardingGate> BoardingGateDict) 
 {
     string AIRLINESCSVPATH = "..\\..\\..\\..\\data\\airlines.csv";
     string BOARDINGGATESCSVPATH = "..\\..\\..\\..\\data\\boardingGates.csv";
@@ -40,9 +40,9 @@ void LoadAirlinesAndBoardingGates(Dictionary<string, Airline> loadedAirlines, Di
         {
             string[] data = line.Split(",");
             Airline airline = new Airline(data[0], data[1]);
-            loadedAirlines.Add(airline.Code, airline);
+            AirlinesDict.Add(airline.Code, airline);
         }
-        Console.WriteLine($"{loadedAirlines.Count} Airlines Loaded!");
+        Console.WriteLine($"{AirlinesDict.Count} Airlines Loaded!");
     }
 
     using (StreamReader boardingGatesReader = new StreamReader(BOARDINGGATESCSVPATH))
@@ -54,9 +54,9 @@ void LoadAirlinesAndBoardingGates(Dictionary<string, Airline> loadedAirlines, Di
         {
             string[] data = line.Split(",");
             BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[1]), bool.Parse(data[2]), bool.Parse(data[3]));
-            loadedBoardingGates.Add(boardingGate.GateName, boardingGate);
+            BoardingGateDict.Add(boardingGate.GateName, boardingGate);
         }
-        Console.WriteLine($"{loadedBoardingGates.Count} Boarding Gates Loaded!");
+        Console.WriteLine($"{BoardingGateDict.Count} Boarding Gates Loaded!");
     }
 
 }
@@ -99,11 +99,14 @@ void LoadFlights(Dictionary<string, Flight> flightsdict)
     }
 }
 //Feature 3.1 : hongyi
-void AssignFlightToAIrline(Dictionary<string, Flight> flightsdict , Dictionary<string, Airline> loadedAirlines)
+void AssignFlightToAIrline(Dictionary<string, Flight> FlightsDict , Dictionary<string, Airline> AirlinesDict)
 {
-
+    foreach (Flight flight in FlightsDict.Values)
+    {
+        string AirlineCode = flight.FlightNumber.Substring(0,2);
+        Console.WriteLine(AirlinesDict[AirlineCode]);
+    }
 }
-
 //Feature 3.2: hongyi
 void DisplayFlights(Dictionary<string, Flight> flightsdict)
 {
@@ -117,13 +120,13 @@ void DisplayFlights(Dictionary<string, Flight> flightsdict)
     }
 }
 //Feature 4 : yinuo
-void DisplayBoardingGates(Dictionary<string, BoardingGate> loadedBoardingGates)
+void DisplayBoardingGates(Dictionary<string, BoardingGate> BoardingGateDict)
 {
     Console.WriteLine("=============================================");
     Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
     Console.WriteLine("=============================================");
     Console.WriteLine("Gate Name       DDJB                   CFFT                   LWTT");
-    foreach (BoardingGate boardingGate in loadedBoardingGates.Values)
+    foreach (BoardingGate boardingGate in BoardingGateDict.Values)
     {
         Console.WriteLine(boardingGate);
     }
@@ -139,14 +142,14 @@ void CreateFlight()
 
 }
 //Feature 7 : yinuo (Option 5)
-void DisplayFullFlightDetails(Dictionary<string, Airline> loadedAirlines)
+void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
 {
     string selectedAirlineCode;
     Console.WriteLine("=============================================");
     Console.WriteLine("List of Flights for Changi Airport Terminal 5");
     Console.WriteLine("=============================================");
     Console.WriteLine("Airline Code    Airline Name");
-    foreach (KeyValuePair<string, Airline> airline in loadedAirlines)
+    foreach (KeyValuePair<string, Airline> airline in AirlinesDict)
     {
         Console.WriteLine($"{airline.Key.ToString().PadRight(16)}{airline.Key.ToString()}");
     }
@@ -168,7 +171,7 @@ void DisplayFullFlightDetails(Dictionary<string, Airline> loadedAirlines)
         }
     }
 
-    foreach (Airline airline in loadedAirlines.Values)
+    foreach (Airline airline in AirlinesDict.Values)
     {
         if (selectedAirlineCode == airline.Code)
         {

@@ -189,11 +189,6 @@ void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
             }
             break;
         }
-        else
-        {
-            Console.WriteLine("Invalid Airline Code, try again.");
-            break;
-        }
     }
 }
 //Feature 8 : yinuo

@@ -352,10 +352,30 @@ void ModifyFlightDetails()
 {
 
 }
-//Feature 9 : hongyi
-void DisplayScheduledFlights()
+//Feature 9 : hongyi (option 7)
+void DisplayScheduledFlights(Dictionary<string, Flight> FlightsDict, Dictionary<string, Airline> AirlinesDict, Dictionary<string, BoardingGate> BoardingGateDict)
 {
-
+    Console.WriteLine("=============================================");
+    Console.WriteLine("Flight Schedule for Changi Airport Terminal 5");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time     Status          Boarding Gate");
+    List<Flight> keysList = FlightsDict.Values.ToList();
+    keysList.Sort();
+    foreach (Flight flight in keysList)
+    {
+        string BoardingGate = "Not Assigned";
+        foreach (var gate in BoardingGateDict.Values)
+        {
+            if (gate.Flight == flight)
+            {
+                BoardingGate = gate.GateName;
+                break;
+            }
+        }
+        string AirlineCode = flight.FlightNumber.Substring(0, 2);
+        string AirlineName = AirlinesDict[AirlineCode].Name;
+        Console.WriteLine($"{flight.FlightNumber,-16}{AirlineName,-23}{flight.Origin,-23}{flight.Destination,-23}{flight.ExpectedTime,-36}{flight.Status,-16}{BoardingGate}");
+    }
 }
 
 //Feature 10 (personal creation)
@@ -437,7 +457,8 @@ while (true)
     }
     else if (option == 7)
     {
-        throw new NotImplementedException();
+        DisplayScheduledFlights(FlightsDict,AirlinesDict,BoardingGateDict);
+        WhiteSpace();
     }
     else if (option == 0)
     {

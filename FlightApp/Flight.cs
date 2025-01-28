@@ -8,6 +8,7 @@
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace FlightApp
 {
-    class Flight : Airline
+    class Flight : Airline,IComparable<Flight>
     {
         public string FlightNumber { get; set; }
         public string Origin { get; set; }
@@ -34,6 +35,7 @@ namespace FlightApp
             Origin = origin;
             Destination = destination;
             ExpectedTime = expectedTime;
+            Status = "Scheduled";
         }
         public virtual double CalculateFees()
         {
@@ -59,6 +61,12 @@ namespace FlightApp
         public override string ToString()
         {
             return $"{FlightNumber}          Singapore Airlines     {Origin}            {Destination}        {ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}";
+        }
+
+        public int CompareTo(Flight? other)
+        {
+            if (other == null) return 1;
+            return ExpectedTime.CompareTo(other.ExpectedTime);
         }
     }
 }

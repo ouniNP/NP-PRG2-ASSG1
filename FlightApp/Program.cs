@@ -7,6 +7,7 @@
 
 //Functions
 using FlightApp;
+using System.Globalization;
 
 void MainMenu()
 {
@@ -242,19 +243,62 @@ void AssignBoardingGateToFlight(Dictionary<string, Flight> FlightsDict, Dictiona
     }
     SelectedBoardingGate.Flight = SelectedFlight;
     Console.WriteLine($"Flight {SelectedFlight.FlightNumber} has been assigned to Boarding Gate {SelectedBoardingGate.GateName}!");
-
-
-
-
-
-
-
-
 }
-//Feature 6 : hongyi
-void CreateFlight()
+//Feature 6 : hongyi (option 4)
+void CreateFlight(Dictionary<string, Flight> FlightsDict)
 {
+    Flight newflight = null;
+    string addanother;
+    do
+    {
+        Console.Write("Enter Flight Number: ");
+        string flightnumber = Console.ReadLine();
+        Console.Write("Enter Origin: ");
+        string origin = Console.ReadLine();
+        Console.Write("Enter Destination: ");
+        string destination = Console.ReadLine();
+        DateTime expectedtime = DateTime.MinValue;
+        bool validDate = false;
+        while (!validDate)
+        {
+            Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
+            string input = Console.ReadLine();
 
+            try
+            {
+
+                expectedtime = DateTime.ParseExact(input, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+                validDate = true; 
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid date format. Please use dd/mm/yyyy hh:mm.");
+            }
+        }
+        Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+        string specialrequestcode = Console.ReadLine();
+        if (specialrequestcode == "LWTT")
+        {
+            newflight = new LWTTFlight(flightnumber, origin, destination, expectedtime);
+        }
+        else if (specialrequestcode == "DDJB")
+        {
+            newflight = new DDJBFlight(flightnumber, origin, destination, expectedtime);
+        }
+        else if (specialrequestcode == "CFFT")
+        {
+            newflight = new CFFTFlight(flightnumber, origin, destination, expectedtime);
+        }
+        else if (specialrequestcode == "None")
+        {
+            newflight = new NORMFlight(flightnumber, origin, destination, expectedtime);
+        }
+        FlightsDict.Add(flightnumber, newflight);
+        Console.WriteLine($"Flight {flightnumber} has been added!");
+        Console.WriteLine("Would you like to add another flight? (Y/N)");
+        addanother = Console.ReadLine().ToUpper();
+    }
+    while (addanother == "Y");
 }
 //Feature 7 : yinuo (Option 5)
 void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
@@ -376,10 +420,12 @@ while (true)
     else if (option == 3)
     {
         AssignBoardingGateToFlight(FlightsDict, BoardingGateDict);
+        WhiteSpace() ;
     }
     else if (option == 4)
     {
-        throw new NotImplementedException();
+        CreateFlight(FlightsDict);
+        WhiteSpace();
     }
     else if (option == 5)
     {

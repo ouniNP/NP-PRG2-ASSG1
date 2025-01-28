@@ -426,7 +426,71 @@ void ModifyFlightDetails(Dictionary<string, Airline> airlineDict, Dictionary<str
                         }
                         else if (modifyOption == "2")
                         {
+                            Console.WriteLine($"Current Status: {selectedFlight.Status}");
+                            Console.WriteLine("Enter new Status (Delayed/Boarding/On Time):");
+                            string newStatus = Console.ReadLine().ToLower();
+                            if (newStatus == "delayed" || newStatus == "boarding" || newStatus == "on time")
+                            {
+                                selectedFlight.Status = newStatus;
+                                Console.WriteLine("Status updated!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid status, try again.");
+                            }
+                        }
+                        else if (modifyOption == "3")
+                        {
+                            Console.WriteLine("Enter updated Special Request Code (CFFT/DDJB/LWTT/None):");
+                            string newSpecialRequestCode = Console.ReadLine().ToUpper();
+                            var flightType = selectedFlight.GetType();
+                            if (newSpecialRequestCode == "LWTT" && flightType != typeof(LWTTFlight))
+                            {
+                                selectedFlight = new LWTTFlight(selectedFlight.FlightNumber, selectedFlight.Origin, selectedFlight.Destination, selectedFlight.ExpectedTime);
+                                Console.WriteLine("Flight updated with new Special Request Code: LWTT");
+                            }
+                            else if (newSpecialRequestCode == "DDJB" && flightType != typeof(DDJBFlight))
+                            {
+                                selectedFlight = new DDJBFlight(selectedFlight.FlightNumber, selectedFlight.Origin, selectedFlight.Destination, selectedFlight.ExpectedTime);
+                                Console.WriteLine("Flight updated with new Special Request Code: DDJB");
+                            }
 
+                            else if (newSpecialRequestCode == "CFFT" && flightType != typeof(CFFTFlight))
+                            {
+                                selectedFlight = new CFFTFlight(selectedFlight.FlightNumber, selectedFlight.Origin, selectedFlight.Destination, selectedFlight.ExpectedTime);
+                                Console.WriteLine("Flight updated with new Special Request Code: CFFT");
+                            }
+                            else if (newSpecialRequestCode == "None" && flightType != typeof(NORMFlight))
+                            {
+                                selectedFlight = new NORMFlight(selectedFlight.FlightNumber, selectedFlight.Origin, selectedFlight.Destination, selectedFlight.ExpectedTime);
+                                Console.WriteLine("Flight updated with new Special Request Code: None");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid, try again.");
+                            }
+                        }
+                        else if (modifyOption == "4")
+                        {
+                            BoardingGate? currentGate = new BoardingGate();
+                            foreach (BoardingGate gate in boardingGateDict.Values)
+                            {
+                                if (gate.Flight == selectedFlight)
+                                {
+                                    currentGate = gate;
+                                }
+                            }
+                            Console.WriteLine($"Current Boarding Gate: {currentGate.GateName}");
+                            Console.WriteLine("Enter new Boarding Gate:");
+                            string newGate = Console.ReadLine();
+                            foreach (BoardingGate bGate in boardingGateDict.Values)
+                            {
+                                if (bGate.GateName == newGate)
+                                {   
+                                    bGate.Flight = selectedFlight;
+                                    Console.WriteLine("Boarding Gate updated!");
+                                }
+                            }
                         }
                         break;
 

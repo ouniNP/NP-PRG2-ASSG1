@@ -61,7 +61,7 @@ void LoadAirlinesAndBoardingGates(Dictionary<string, Airline> AirlinesDict, Dict
     }
 
 }
-//Feature 2 : hongyi
+//Feature 2 : hongyi (completed)
 void LoadFlights(Dictionary<string, Flight> flightsdict)
 {
     using (StreamReader flightsreader = new StreamReader("..\\..\\..\\..\\data\\flights.csv"))
@@ -99,7 +99,7 @@ void LoadFlights(Dictionary<string, Flight> flightsdict)
         Console.WriteLine($"{flightsdict.Count} Flights Loaded!");
     }
 }
-//Feature 3.1 : hongyi
+//Feature 3.1 : hongyi (completed)
 void AssignFlightToAIrline(Dictionary<string, Flight> FlightsDict , Dictionary<string, Airline> AirlinesDict)
 {
     foreach (Flight flight in FlightsDict.Values)
@@ -109,7 +109,7 @@ void AssignFlightToAIrline(Dictionary<string, Flight> FlightsDict , Dictionary<s
     }
 }
 
-//Feature 3.2: hongyi
+//Feature 3.2: hongyi (completed)
 void DisplayFlights(Dictionary<string, Flight> flightsdict, Dictionary<string, Airline> AirlinesDict)
 {
     Console.WriteLine("=============================================");
@@ -135,7 +135,7 @@ void DisplayBoardingGates(Dictionary<string, BoardingGate> BoardingGateDict)
         Console.WriteLine(boardingGate);
     }
 }
-//Feature 5 : hongyi (option 3)
+//Feature 5 : hongyi (option 3) (completed with some validation)
 void AssignBoardingGateToFlight(Dictionary<string, Flight> FlightsDict, Dictionary<string, BoardingGate> BoardingGateDict)
 {
     Flight SelectedFlight = null;
@@ -244,7 +244,7 @@ void AssignBoardingGateToFlight(Dictionary<string, Flight> FlightsDict, Dictiona
     SelectedBoardingGate.Flight = SelectedFlight;
     Console.WriteLine($"Flight {SelectedFlight.FlightNumber} has been assigned to Boarding Gate {SelectedBoardingGate.GateName}!");
 }
-//Feature 6 : hongyi (option 4)
+//Feature 6 : hongyi (option 4) (completed with no validation)
 void CreateFlight(Dictionary<string, Flight> FlightsDict)
 {
     Flight newflight = null;
@@ -352,7 +352,7 @@ void ModifyFlightDetails()
 {
 
 }
-//Feature 9 : hongyi (option 7)
+//Feature 9 : hongyi (option 7) (completed)
 void DisplayScheduledFlights(Dictionary<string, Flight> FlightsDict, Dictionary<string, Airline> AirlinesDict, Dictionary<string, BoardingGate> BoardingGateDict)
 {
     Console.WriteLine("=============================================");

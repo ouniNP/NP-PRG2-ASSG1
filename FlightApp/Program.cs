@@ -26,7 +26,7 @@ void MainMenu()
     Console.WriteLine("8.  Display the total fee per");
     Console.WriteLine("9.  Assign random boarding gates");
     Console.WriteLine("10. Remove all flights from boarding gates");
-    Console.WriteLine("0. Exit");
+    Console.WriteLine("0.  Exit");
     Console.WriteLine();
 }
 

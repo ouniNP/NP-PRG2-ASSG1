@@ -476,7 +476,6 @@ void ModifyFlightDetails(Dictionary<string, Airline> airlineDict, Dictionary<str
                         }
                     }
                     Console.WriteLine($"Boarding Gate: {assignedGate}");
-                    break;
                 }
                 else if (modifyOption == "2")
                 {

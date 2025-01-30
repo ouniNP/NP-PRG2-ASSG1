@@ -42,46 +42,12 @@ namespace FlightApp
 
         public double CalculateFees()
         {
-            double TotalFee = 0;
-            double Discount = 0;
-            int count = Flights.Count;
-            foreach (Flight flight in Flights.Values)
+            double totalfee = 0;
+            foreach (var flight in Flights.Values)
             {
-                if (flight.ExpectedTime.TimeOfDay < TimeSpan.FromHours(11) || flight.ExpectedTime.TimeOfDay > TimeSpan.FromHours(21))
-                {
-                    Discount += 110;
-                }
-
-
-                if (flight.Origin == "Dubai (DXB)" || flight.Origin == "Bangkok (BKK)" || flight.Origin == "Tokyo (NRT)") //cheks if flight is from Dubai , Bangkok or Tokyo
-                {
-                    Discount += 25;
-                }
-
-                if (flight is NORMFlight) //checks for special requests
-                {
-                    Discount += 50;
-                }
-
-                TotalFee += flight.CalculateFees(); //adds the price of the flight
-
+                totalfee += flight.CalculateFees();
             }
-            try
-            {
-                Discount += (count / 3) * 350; //For every 3 flights arriving/departing, airlines will receive a discount
-                if (count > 5)
-                {
-                    TotalFee = (TotalFee * 0.97); 
-                }
-                TotalFee = TotalFee - Discount;
-                return TotalFee;
-            }
-
-            catch (DivideByZeroException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return 0;
+            return totalfee;
         }
 
         public bool RemoveFlight(Flight flight)

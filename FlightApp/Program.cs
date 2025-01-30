@@ -628,6 +628,94 @@ void WhiteSpace()
     Console.WriteLine();
 }
 
+//Extra feature (hongyi)
+void DisplayAirlineFee(Dictionary<string, Flight> FlightsDict, Dictionary<string, BoardingGate> BoardingGateDict, Dictionary<string, Airline> AirlinesDict)
+{
+    //check if all flights are assigned to a boarding gate
+    foreach (Flight flight in FlightsDict.Values)
+    {
+        string BoardingGate = "Not Assigned";
+        foreach (var gate in BoardingGateDict.Values)
+        {
+            if (gate.Flight == flight)
+            {
+                BoardingGate = gate.GateName;
+                break;
+            }
+        }
+        if (BoardingGate == "Not Assigned")
+        {
+            Console.WriteLine("There are flights with unassigned boarding gates.");
+            Console.WriteLine("Please ensure all flights are assigned to a boarding gate before running this feature again.");
+            return;
+        }
+    }
+
+    foreach (Airline airline in AirlinesDict.Values)
+    {
+        double TotalFee = airline.CalculateFees();
+        double Discount = 0;
+        int count = airline.Flights.Count;
+        foreach (Flight flight in airline.Flights.Values)
+        {
+            if (flight.ExpectedTime.TimeOfDay < TimeSpan.FromHours(11) || flight.ExpectedTime.TimeOfDay > TimeSpan.FromHours(21))
+            {
+                Discount += 110;
+            }
+
+
+            if (flight.Origin == "Dubai (DXB)" || flight.Origin == "Bangkok (BKK)" || flight.Origin == "Tokyo (NRT)") //cheks if flight is from Dubai , Bangkok or Tokyo
+            {
+                Discount += 25;
+            }
+
+            if (flight is NORMFlight) //checks for special requests
+            {
+                Discount += 50;
+            }
+        }
+        try
+        {
+            Discount += (count / 3) * 350; //For every 3 flights arriving/departing, airlines will receive a discount
+            if (count > 5)
+            {
+                TotalFee = (TotalFee * 0.97);
+            }
+            Console.WriteLine(airline.Name);
+            Console.WriteLine(TotalFee);
+            Console.WriteLine(Discount);
+            Console.WriteLine(TotalFee - Discount);
+            Console.WriteLine("--------------------------------");
+        }
+
+        catch (DivideByZeroException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}
+
+//testing for extra feature 
+void assignflightstoboardinggate(Dictionary<string, Flight> FlightsDict, Dictionary<string, BoardingGate> BoardingGateDict, Dictionary<string, Airline> AirlinesDict)
+{
+    int i  = 0;
+    var flightsList = FlightsDict.Values.ToList();  // Convert to list for easy indexing
+    foreach (BoardingGate boardingGate in BoardingGateDict.Values)
+    {
+        if (i < flightsList.Count)
+        {
+            boardingGate.Flight = flightsList[i];  // Assign the flight to the boarding gate
+            i++;
+        }
+        else
+        {
+            // Handle the case where there are more boarding gates than flights
+            Console.WriteLine("Not enough flights to assign to all boarding gates.");
+            break;
+        }
+    }
+}
+
 //Collections
 Dictionary<string, Airline> AirlinesDict = new Dictionary<string, Airline>();
 Dictionary<string, BoardingGate> BoardingGateDict = new Dictionary<string, BoardingGate>();
@@ -681,7 +769,7 @@ while (true)
     else if (option == 3)
     {
         AssignBoardingGateToFlight(FlightsDict, BoardingGateDict);
-        WhiteSpace() ;
+        WhiteSpace();
     }
     else if (option == 4)
     {
@@ -698,8 +786,17 @@ while (true)
     }
     else if (option == 7)
     {
-        DisplayScheduledFlights(FlightsDict,AirlinesDict,BoardingGateDict);
+        DisplayScheduledFlights(FlightsDict, AirlinesDict, BoardingGateDict);
         WhiteSpace();
+    }
+    else if (option == 8)
+    {
+        DisplayAirlineFee(FlightsDict, BoardingGateDict, AirlinesDict);
+    }
+    else if (option == 9)
+    { 
+        assignflightstoboardinggate(FlightsDict, BoardingGateDict, AirlinesDict);
+
     }
     else if (option == 0)
     {

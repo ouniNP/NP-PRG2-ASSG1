@@ -16,14 +16,17 @@ void MainMenu()
     Console.WriteLine("=============================================");
     Console.WriteLine("Welcome to Changi Airport Terminal 5");
     Console.WriteLine("=============================================");
-    Console.WriteLine("1. List All Flights");
-    Console.WriteLine("2. List Boarding Gates");
-    Console.WriteLine("3. Assign a Boarding Gate to a Flight");
-    Console.WriteLine("4. Create Flight");
-    Console.WriteLine("5. Display Airline Flights");
-    Console.WriteLine("6. Modify Flight Details");
-    Console.WriteLine("7. Display Flight Schedule");
-    Console.WriteLine("0. Exit");
+    Console.WriteLine("1.  List All Flights");
+    Console.WriteLine("2.  List Boarding Gates");
+    Console.WriteLine("3.  Assign a Boarding Gate to a Flight");
+    Console.WriteLine("4.  Create Flight");
+    Console.WriteLine("5.  Display Airline Flights");
+    Console.WriteLine("6.  Modify Flight Details");
+    Console.WriteLine("7.  Display Flight Schedule");
+    Console.WriteLine("8.  Display the total fee per");
+    Console.WriteLine("9.  Assign random boarding gates");
+    Console.WriteLine("10. Remove all flights from boarding gates");
+    Console.WriteLine("0.  Exit");
     Console.WriteLine();
 }
 
@@ -633,7 +636,7 @@ void WhiteSpace()
     Console.WriteLine();
 }
 
-//Extra feature (hongyi)
+//Extra feature : hongyi (option 8)
 void DisplayAirlineFee(Dictionary<string, Flight> FlightsDict, Dictionary<string, BoardingGate> BoardingGateDict, Dictionary<string, Airline> AirlinesDict)
 {
     //check if all flights are assigned to a boarding gate
@@ -655,10 +658,17 @@ void DisplayAirlineFee(Dictionary<string, Flight> FlightsDict, Dictionary<string
             return;
         }
     }
+    Console.WriteLine("=============================================");
+    Console.WriteLine("Airlines Fee for Changi Airport Terminal 5");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("Airline Name           Total Fee                 Discount            Final Total Fee");
 
+    double totalfee = 0;
+    double totaldiscount = 0;
+    double finaltoalfee = 0;
     foreach (Airline airline in AirlinesDict.Values)
     {
-        double TotalFee = airline.CalculateFees();
+        double airlinefee = airline.CalculateFees();
         double Discount = 0;
         int count = airline.Flights.Count;
         foreach (Flight flight in airline.Flights.Values)
@@ -684,13 +694,13 @@ void DisplayAirlineFee(Dictionary<string, Flight> FlightsDict, Dictionary<string
             Discount += (count / 3) * 350; //For every 3 flights arriving/departing, airlines will receive a discount
             if (count > 5)
             {
-                TotalFee = (TotalFee * 0.97);
+                airlinefee = (airlinefee * 0.97);
             }
-            Console.WriteLine(airline.Name);
-            Console.WriteLine(TotalFee);
-            Console.WriteLine(Discount);
-            Console.WriteLine(TotalFee - Discount);
-            Console.WriteLine("--------------------------------");
+            double finalfee = airlinefee - Discount;
+            totalfee += airlinefee;
+            totaldiscount += Discount;
+            finaltoalfee += finalfee;
+            Console.WriteLine($"{airline.Name,-23}${airlinefee,-25}${Discount,-19}${finalfee}");
         }
 
         catch (DivideByZeroException ex)
@@ -698,10 +708,16 @@ void DisplayAirlineFee(Dictionary<string, Flight> FlightsDict, Dictionary<string
             Console.WriteLine(ex.Message);
         }
     }
+    double discountpercentage = (totaldiscount / finaltoalfee) * 100;
+    Console.WriteLine();
+    Console.WriteLine("Subtotal of all Airline Fees: $" + totalfee);
+    Console.WriteLine("Subtotal of all Airline Discounts: $" + totaldiscount);
+    Console.WriteLine("Final Total of Airline Fees (after discounts): $" + finaltoalfee);
+    Console.WriteLine("Percentage of Discounts over Final Total Fees: " + discountpercentage.ToString("F2") + "%");
 }
 
-//testing for extra feature 
-void assignflightstoboardinggate(Dictionary<string, Flight> FlightsDict, Dictionary<string, BoardingGate> BoardingGateDict, Dictionary<string, Airline> AirlinesDict)
+//testing for extra feature : hong yi (option 9 )
+void AssignFlightsToBoardingGate(Dictionary<string, Flight> FlightsDict, Dictionary<string, BoardingGate> BoardingGateDict)
 {
     int i  = 0;
     var flightsList = FlightsDict.Values.ToList();  // Convert to list for easy indexing
@@ -714,12 +730,24 @@ void assignflightstoboardinggate(Dictionary<string, Flight> FlightsDict, Diction
         }
         else
         {
-            // Handle the case where there are more boarding gates than flights
             Console.WriteLine("Not enough flights to assign to all boarding gates.");
+            Console.WriteLine("All avaialble flights have been assigned.");
             break;
         }
     }
 }
+
+//testing for extra feature : hong yi (option 10 )
+
+void RemoveFlightsFromBoardingGate(Dictionary<string, BoardingGate> BoardingGateDict)
+{
+    foreach (BoardingGate boardingGate in BoardingGateDict.Values)
+    {
+        boardingGate.Flight = null;  // Remove assigned flight
+    }
+    Console.WriteLine("All flights have been removed from the boarding gates.");
+}
+
 
 //Collections
 Dictionary<string, Airline> AirlinesDict = new Dictionary<string, Airline>();
@@ -797,10 +825,18 @@ while (true)
     else if (option == 8)
     {
         DisplayAirlineFee(FlightsDict, BoardingGateDict, AirlinesDict);
+        WhiteSpace();
     }
     else if (option == 9)
     { 
-        assignflightstoboardinggate(FlightsDict, BoardingGateDict, AirlinesDict);
+        AssignFlightsToBoardingGate(FlightsDict, BoardingGateDict);
+        WhiteSpace();
+
+    }
+    else if (option == 10)
+    {
+        RemoveFlightsFromBoardingGate(BoardingGateDict);
+        WhiteSpace();
 
     }
     else if (option == 0)

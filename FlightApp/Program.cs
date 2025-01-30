@@ -248,39 +248,94 @@ void AssignBoardingGateToFlight(Dictionary<string, Flight> FlightsDict, Dictiona
     SelectedBoardingGate.Flight = SelectedFlight;
     Console.WriteLine($"Flight {SelectedFlight.FlightNumber} has been assigned to Boarding Gate {SelectedBoardingGate.GateName}!");
 }
-//Feature 6 : hongyi (option 4) (completed with no validation)
+//Feature 6 : hongyi (option 4) (completed with validation)
 void CreateFlight(Dictionary<string, Flight> FlightsDict)
 {
-    Flight newflight = null;
     string addanother;
     do
     {
-        Console.Write("Enter Flight Number: ");
-        string flightnumber = Console.ReadLine();
-        Console.Write("Enter Origin: ");
-        string origin = Console.ReadLine();
-        Console.Write("Enter Destination: ");
-        string destination = Console.ReadLine();
-        DateTime expectedtime = DateTime.MinValue;
-        bool validDate = false;
-        while (!validDate)
+        string flightnumber;
+        while (true)
         {
-            Console.Write("Enter Expected Departure/Arrival Time (dd/mm/yyyy hh:mm): ");
-            string input = Console.ReadLine();
+            Console.Write("Enter Flight Number: ");
+            flightnumber = Console.ReadLine()?.Trim().ToUpper();
 
-            try
+            if (string.IsNullOrEmpty(flightnumber))
             {
-
-                expectedtime = DateTime.ParseExact(input, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
-                validDate = true; 
+                Console.WriteLine("Flight number cannot be empty. Please enter a valid flight number.");
+                continue;
             }
-            catch (FormatException)
+
+            if (FlightsDict.ContainsKey(flightnumber))
             {
-                Console.WriteLine("Invalid date format. Please use dd/mm/yyyy hh:mm.");
+                Console.WriteLine("This flight number already exists. Please enter a unique flight number.");
+                continue;
+            }
+            break;
+        }
+
+        string origin;
+        while (true)
+        {
+            Console.Write("Enter Origin: ");
+            origin = Console.ReadLine()?.Trim();
+
+            if (string.IsNullOrEmpty(origin))
+            {
+                Console.WriteLine("Origin cannot be empty. Please enter a valid origin.");
+                continue;
+            }
+            break;
+        }
+
+        string destination;
+        while (true)
+        {
+            Console.Write("Enter Destination: ");
+            destination = Console.ReadLine()?.Trim();
+
+            if (string.IsNullOrEmpty(destination))
+            {
+                Console.WriteLine("Destination cannot be empty. Please enter a valid destination.");
+                continue;
+            }
+            break;
+        }
+
+        DateTime expectedtime = DateTime.MinValue;
+        while (true)
+        {
+            Console.Write("Enter Expected Departure/Arrival Time (dd/MM/yyyy HH:mm): ");
+            string input = Console.ReadLine()?.Trim();
+
+            if (DateTime.TryParseExact(input, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out expectedtime))
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Invalid date format. Please use dd/MM/yyyy HH:mm.");
             }
         }
-        Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
-        string specialrequestcode = Console.ReadLine();
+
+        string specialrequestcode;
+        while (true)
+        {
+            Console.Write("Enter Special Request Code (CFFT/DDJB/LWTT/None): ");
+            specialrequestcode = Console.ReadLine()?.Trim().ToUpper();
+
+            if (specialrequestcode == "LWTT" || specialrequestcode == "DDJB" || specialrequestcode == "CFFT" || specialrequestcode == "NONE")
+            {
+                break;
+            }
+            else
+            {
+                Console.WriteLine("Invalid special request code. Please enter one of the following: CFFT, DDJB, LWTT, None.");
+            }
+        }
+
+        Flight newflight = null;
+
         if (specialrequestcode == "LWTT")
         {
             newflight = new LWTTFlight(flightnumber, origin, destination, expectedtime);
@@ -300,7 +355,7 @@ void CreateFlight(Dictionary<string, Flight> FlightsDict)
         FlightsDict.Add(flightnumber, newflight);
         Console.WriteLine($"Flight {flightnumber} has been added!");
         Console.WriteLine("Would you like to add another flight? (Y/N)");
-        addanother = Console.ReadLine().ToUpper();
+        addanother = Console.ReadLine()?.Trim().ToUpper();
     }
     while (addanother == "Y");
 }

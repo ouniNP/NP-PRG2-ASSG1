@@ -137,39 +137,34 @@ void DisplayBoardingGates(Dictionary<string, BoardingGate> BoardingGateDict)
         Console.WriteLine(boardingGate);
     }
 }
-//Feature 5 : hongyi (option 3) (completed with some validation)
+//Feature 5 : hongyi (option 3) (completed with validation)
 void AssignBoardingGateToFlight(Dictionary<string, Flight> FlightsDict, Dictionary<string, BoardingGate> BoardingGateDict)
 {
-    Flight SelectedFlight = null;
-    BoardingGate SelectedBoardingGate = null;
-    string SpecialRequestCode = "None";
+    string SpecialRequestCode = "None"; //setting special request code for normal flights , will be overriden if flight has special request code
 
+    //Getting flightnumber (validation completed)
     Console.WriteLine("Enter Flight Number:");
-    string flightnumber = Console.ReadLine();
-    Console.WriteLine("Enter Boarding Gate Name:");
-    string gatename = Console.ReadLine();
-    foreach (Flight flight in FlightsDict.Values)
+    string flightnumber = Console.ReadLine()?.Trim().ToUpper(); //ensure that null inputs and lower case inputs are being handled 
+    if (string.IsNullOrEmpty(flightnumber) || !FlightsDict.ContainsKey(flightnumber))
     {
-        if (flight.FlightNumber == flightnumber)
-        {
-            SelectedFlight = flight;
-            break;
-        }
+        Console.WriteLine("This flight does not exist, directing back to the main menu.");
+        return;
     }
+    Flight SelectedFlight = FlightsDict[flightnumber];
 
-    foreach (BoardingGate boardingGate in BoardingGateDict.Values)
+    
+    //Getting boardinggate (validation completed)
+    Console.WriteLine("Enter Boarding Gate Name:");
+    string gatename = Console.ReadLine()?.Trim().ToUpper();  //ensure that null inputs and lower case inputs are being handled 
+    if (string.IsNullOrEmpty(gatename) || !BoardingGateDict.ContainsKey(gatename))
     {
-        if (boardingGate.GateName == gatename)
-        {
-            SelectedBoardingGate = boardingGate;
-            break;
-        }
+        Console.WriteLine("This boarding gate does not exist, directing back to the main menu.");
+        return;
     }
-    //Display flight
-    Console.WriteLine($"Flight Number: {SelectedFlight.FlightNumber}");
-    Console.WriteLine($"Origin: {SelectedFlight.Origin}");
-    Console.WriteLine($"Destination: {SelectedFlight.Destination}");
-    Console.WriteLine($"Expected Time: {SelectedFlight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
+    BoardingGate SelectedBoardingGate = BoardingGateDict[gatename];
+
+
+    //check for special request
     if (SelectedFlight is DDJBFlight)
     {
         SpecialRequestCode = "DDJB";
@@ -182,6 +177,13 @@ void AssignBoardingGateToFlight(Dictionary<string, Flight> FlightsDict, Dictiona
     {
         SpecialRequestCode = "LWTT";
     }
+
+
+    //Display flight
+    Console.WriteLine($"Flight Number: {SelectedFlight.FlightNumber}");
+    Console.WriteLine($"Origin: {SelectedFlight.Origin}");
+    Console.WriteLine($"Destination: {SelectedFlight.Destination}");
+    Console.WriteLine($"Expected Time: {SelectedFlight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
     Console.WriteLine($"Special Request Code: {SpecialRequestCode} ");
 
     //Display boarding gate
@@ -192,10 +194,10 @@ void AssignBoardingGateToFlight(Dictionary<string, Flight> FlightsDict, Dictiona
 
     //Update Status of flight (validation for edit status and newstatus)
     Console.WriteLine("Would you like to update the status of the flight? (Y/N)");
-    string EditStatus = Console.ReadLine().ToUpper();
+    string EditStatus = Console.ReadLine().Trim().ToUpper();
     while (true)
     {
-        if (EditStatus == "Y")
+        if (EditStatus.Equals("Y"))
         {
             Console.WriteLine("1. Delayed");
             Console.WriteLine("2. Boarding");

@@ -400,7 +400,7 @@ void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
             Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
             foreach (KeyValuePair <string, Flight> kvp in airlineQuery.Flights)
             {
-                Console.WriteLine($"{kvp.Value}");
+                Console.WriteLine($"{kvp.Value.FlightNumber.PadRight(16)}{airlineQuery.Name.PadRight(23)}{kvp.Value.Origin.PadRight(23)}{kvp.Value.Destination.PadRight(23)}{kvp.Value.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
             }
             break;
         }
@@ -566,12 +566,13 @@ void ModifyFlightDetails(Dictionary<string, Airline> airlineDict, Dictionary<str
             else if (option == "2")
             {
                 Console.WriteLine("Are you sure you want to delete this flight? (Y/N)");
-                if (Console.ReadLine().ToUpper() == "Y")
+                string delFlight = Console.ReadLine().ToUpper();
+                if (delFlight == "Y")
                 {
                     selectedAirlineObj.Flights.Remove(flightToEdit);
                     Console.WriteLine("Flight deleted!");
                 }
-                else if (Console.ReadLine().ToUpper() == "N")
+                else if (delFlight == "N")
                 {
                     Console.WriteLine("Operation cancelled. Flight was NOT deleted.");
                 }

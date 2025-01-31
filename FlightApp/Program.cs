@@ -665,7 +665,22 @@ void WhiteSpace()
     Console.WriteLine();
     Console.WriteLine();
 }
-
+//Extra feature: yinuo
+void ProcessUnassignedFlightsToBoardingGates(Terminal terminal)
+{
+    Queue<Flight> unassignedFlights = new Queue<Flight>();
+    foreach (BoardingGate boardingGate in terminal.BoardingGates.Values)
+    { 
+        foreach (Flight flight in terminal.Flights.Values)
+        {
+            if (flight.fl)
+        }
+    }
+    foreach (Flight unassignedFlight in unassignedFlights)
+    {
+        Console.WriteLine(unassignedFlight);
+    }
+}
 //Extra feature : hongyi (option 8)
 void DisplayAirlineFee(Dictionary<string, Flight> FlightsDict, Dictionary<string, BoardingGate> BoardingGateDict, Dictionary<string, Airline> AirlinesDict)
 {
@@ -841,7 +856,7 @@ while (true)
     }
     else if (option == 4)
     {
-        CreateFlight(FlightsDict,AirlinesDict);
+        CreateFlight(FlightsDict, AirlinesDict);
         WhiteSpace();
     }
     else if (option == 5)
@@ -863,7 +878,7 @@ while (true)
         WhiteSpace();
     }
     else if (option == 9)
-    { 
+    {
         AssignFlightsToBoardingGate(FlightsDict, BoardingGateDict);
         WhiteSpace();
 
@@ -873,6 +888,11 @@ while (true)
         RemoveFlightsFromBoardingGate(BoardingGateDict);
         WhiteSpace();
 
+    }
+    else if (option == 11)
+    { 
+        ProcessUnassignedFlightsToBoardingGates(Terminal5);
+        WhiteSpace();
     }
     else if (option == 0)
     {

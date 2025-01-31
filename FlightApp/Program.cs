@@ -791,7 +791,7 @@ Dictionary<string, Flight> FlightsDict = new Dictionary<string, Flight>();
 LoadAirlinesAndBoardingGates(AirlinesDict, BoardingGateDict);
 LoadFlights(FlightsDict);
 AssignFlightToAIrline(FlightsDict, AirlinesDict);
-Terminal Terminal5 = new Terminal("Terminal5",AirlinesDict,FlightsDict,BoardingGateDict);
+Terminal Terminal5 = new Terminal("Terminal 5");
 
 
 

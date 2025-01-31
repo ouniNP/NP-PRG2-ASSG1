@@ -370,9 +370,9 @@ void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
     Console.WriteLine("List of Flights for Changi Airport Terminal 5");
     Console.WriteLine("=============================================");
     Console.WriteLine("Airline Code    Airline Name");
-    foreach (KeyValuePair<string, Airline> airline in AirlinesDict)
+    foreach (Airline airline in AirlinesDict.Values)
     {
-        Console.WriteLine($"{airline.Key.ToString().PadRight(16)}{airline.Value.Name.ToString()}");
+        Console.WriteLine($"{airline.Code.PadRight(16)}{airline.Name}");
     }
     while (true)
     {
@@ -392,21 +392,22 @@ void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
         }
     }
 
+    Airline airlineQuery = new Airline;
     foreach (Airline airline in AirlinesDict.Values)
     {
         if (selectedAirlineCode == airline.Code)
         {
-            Airline airlineQuery = airline;
-            Console.WriteLine("=============================================");
-            Console.WriteLine($"Airline Name: {airlineQuery.Name}");
-            Console.WriteLine("=============================================");
-            Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
-            foreach (KeyValuePair <string, Flight> kvp in airlineQuery.Flights)
-            {
-                Console.WriteLine($"{kvp.Value.FlightNumber.PadRight(16)}{airlineQuery.Name.PadRight(23)}{kvp.Value.Origin.PadRight(23)}{kvp.Value.Destination.PadRight(23)}{kvp.Value.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
-            }
+            airlineQuery = airline;
             break;
         }
+    }
+    Console.WriteLine("=============================================");
+    Console.WriteLine($"Airline Name: {airlineQuery.Name}");
+    Console.WriteLine("=============================================");
+    Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
+    foreach (Flight flight in airlineQuery.Flights.Values)
+    {
+        Console.WriteLine($"{flight.FlightNumber.PadRight(16)}{airlineQuery.Name.PadRight(23)}{flight.Origin.PadRight(23)}{flight.Destination.PadRight(23)}{flight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
     }
 }
 //Feature 8 (8.1, 8.2) : yinuo

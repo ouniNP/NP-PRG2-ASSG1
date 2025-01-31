@@ -413,7 +413,7 @@ void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
         }
     }
 
-    Airline airlineQuery = new Airline;
+    Airline airlineQuery = new Airline();
     foreach (Airline airline in AirlinesDict.Values)
     {
         if (selectedAirlineCode == airline.Code)

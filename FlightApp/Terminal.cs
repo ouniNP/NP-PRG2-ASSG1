@@ -24,8 +24,6 @@ namespace FlightApp
 
         public Dictionary<string, double> GateFees { get; set; } = new Dictionary<string, double>();
 
-        public Terminal() { }
-
         public Terminal(string terminalName)
         {
             TerminalName = terminalName;

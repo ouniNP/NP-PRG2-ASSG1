@@ -16,17 +16,17 @@ namespace FlightApp
     {
         public string TerminalName { get; set; }
 
-        public Dictionary<string, Airline> Airlines { get; set; } = new Dictionary<string, Airline>();
+        public Dictionary<string, Airline> Airlines { get; set; } 
 
-        public Dictionary<string, Flight> Flights { get; set; } = new Dictionary<string, Flight>();
+        public Dictionary<string, Flight> Flights { get; set; } 
 
-        public Dictionary<string, BoardingGate> BoardingGates { get; set; } = new Dictionary<string, BoardingGate>();
+        public Dictionary<string, BoardingGate> BoardingGates { get; set; } 
 
         public Dictionary<string, double> GateFees { get; set; } = new Dictionary<string, double>();
 
         public Terminal() { }
 
-        public Terminal(string terminalName)
+        public Terminal(string terminalName, Dictionary<string, Airline> Airlines, Dictionary<string, Flight> Flights, Dictionary<string, BoardingGate> BoardingGates)
         {
             terminalName = terminalName;
         }

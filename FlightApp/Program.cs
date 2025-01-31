@@ -123,9 +123,22 @@ void DisplayFlights(Dictionary<string, Flight> flightsdict, Dictionary<string, A
     Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
     foreach (Flight flight in flightsdict.Values)
     {
-        string AirlineCode = flight.FlightNumber.Substring(0, 2);
-        string AirlineName = AirlinesDict[AirlineCode].Name;
-        Console.WriteLine($"{flight.FlightNumber,-16}{AirlineName,-23}{flight.Origin,-23}{flight.Destination,-23}{flight.ExpectedTime}");
+        if (flight == null || string.IsNullOrEmpty(flight.FlightNumber) || flight.FlightNumber.Length < 2)
+        {
+            Console.WriteLine("Error: Invalid flight data.");
+            return;
+        }
+        try
+        {
+            string AirlineCode = flight.FlightNumber.Substring(0, 2);
+            string AirlineName = AirlinesDict[AirlineCode].Name;
+            Console.WriteLine($"{flight.FlightNumber,-16}{AirlineName,-23}{flight.Origin,-23}{flight.Destination,-23}{flight.ExpectedTime}");
+        }
+        catch (KeyNotFoundException ex)
+        {
+            Console.WriteLine(ex.Message);
+            return;
+        }
     }
 }
 //Feature 4 : yinuo
@@ -252,7 +265,7 @@ void AssignBoardingGateToFlight(Dictionary<string, Flight> FlightsDict, Dictiona
     Console.WriteLine($"Flight {SelectedFlight.FlightNumber} has been assigned to Boarding Gate {SelectedBoardingGate.GateName}!");
 }
 //Feature 6 : hongyi (option 4) (completed with validation)
-void CreateFlight(Dictionary<string, Flight> FlightsDict)
+void CreateFlight(Dictionary<string, Flight> FlightsDict, Dictionary<string, Airline> AirlinesDict)
 {
     string addanother;
     do
@@ -351,12 +364,20 @@ void CreateFlight(Dictionary<string, Flight> FlightsDict)
         {
             newflight = new CFFTFlight(flightnumber, origin, destination, expectedtime);
         }
-        else if (specialrequestcode == "None")
+        else if (specialrequestcode == "NONE")
         {
             newflight = new NORMFlight(flightnumber, origin, destination, expectedtime);
         }
-        FlightsDict.Add(flightnumber, newflight);
-        Console.WriteLine($"Flight {flightnumber} has been added!");
+
+        if (newflight != null)
+        {
+            FlightsDict.Add(flightnumber, newflight);
+            Console.WriteLine($"Flight {flightnumber} has been added!");
+        }
+        else
+        {
+            Console.WriteLine("Error: Failed to create flight.");
+        }
         Console.WriteLine("Would you like to add another flight? (Y/N)");
         addanother = Console.ReadLine()?.Trim().ToUpper();
     }
@@ -621,9 +642,17 @@ void DisplayScheduledFlights(Dictionary<string, Flight> FlightsDict, Dictionary<
                 break;
             }
         }
-        string AirlineCode = flight.FlightNumber.Substring(0, 2);
-        string AirlineName = AirlinesDict[AirlineCode].Name;
-        Console.WriteLine($"{flight.FlightNumber,-16}{AirlineName,-23}{flight.Origin,-23}{flight.Destination,-23}{flight.ExpectedTime,-36}{flight.Status,-16}{BoardingGate}");
+        try
+        {
+            string AirlineCode = flight.FlightNumber.Substring(0, 2);
+            string AirlineName = AirlinesDict[AirlineCode].Name;
+            Console.WriteLine($"{flight.FlightNumber,-16}{AirlineName,-23}{flight.Origin,-23}{flight.Destination,-23}{flight.ExpectedTime,-36}{flight.Status,-16}{BoardingGate}");
+        }
+        catch (KeyNotFoundException ex)
+        {
+            Console.WriteLine(ex.Message);
+            return;
+        }
     }
 }
 
@@ -756,10 +785,14 @@ Dictionary<string, Flight> FlightsDict = new Dictionary<string, Flight>();
 
 
 
+
 //Main Program
 LoadAirlinesAndBoardingGates(AirlinesDict, BoardingGateDict);
 LoadFlights(FlightsDict);
 AssignFlightToAIrline(FlightsDict, AirlinesDict);
+Terminal Terminal5 = new Terminal("Terminal5",AirlinesDict,FlightsDict,BoardingGateDict);
+
+
 
 WhiteSpace();
 
@@ -806,7 +839,7 @@ while (true)
     }
     else if (option == 4)
     {
-        CreateFlight(FlightsDict);
+        CreateFlight(FlightsDict,AirlinesDict);
         WhiteSpace();
     }
     else if (option == 5)

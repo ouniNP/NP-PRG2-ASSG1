@@ -31,12 +31,12 @@ namespace FlightApp
         {
             const double BOARDING_GATE_BASE_FEE = 300;
             double totalFees = 0;
-            if (this.Destination.ToUpper().Contains("SIN"))
+            if (this.Destination.ToUpper().Contains("SINGAPORE"))
             {
                 totalFees = BOARDING_GATE_BASE_FEE + 500 + RequestFee;
                 return totalFees;
             }
-            else if (this.Origin.ToUpper().Contains("SIN"))
+            else if (this.Origin.ToUpper().Contains("SINGAPORE"))
             {
                 totalFees = BOARDING_GATE_BASE_FEE + 800 + RequestFee;
                 return totalFees;

@@ -29,7 +29,6 @@ namespace FlightApp
             SupportsDDJB = supportsDDJB;
             SupportsCFFT = supportsCFFT;
             SupportsLWTT = supportsLWTT;
-            Flight = this.Flight;
         }
 
         public double CalculateFees()

@@ -26,9 +26,9 @@ namespace FlightApp
 
         public Terminal() { }
 
-        public Terminal(string terminalName, Dictionary<string, Airline> Airlines, Dictionary<string, Flight> Flights, Dictionary<string, BoardingGate> BoardingGates)
+        public Terminal(string terminalName)
         {
-            terminalName = terminalName;
+            TerminalName = terminalName;
         }
 
         public bool AddAirline(Airline airline)

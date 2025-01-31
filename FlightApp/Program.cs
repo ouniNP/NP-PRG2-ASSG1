@@ -32,7 +32,7 @@ void MainMenu()
 
 
 //Feature 1 : yinuo
-void LoadAirlinesAndBoardingGates(Dictionary<string, Airline> AirlinesDict, Dictionary<string, BoardingGate> BoardingGateDict) 
+void LoadAirlinesAndBoardingGates(Terminal terminal) 
 {
     string AIRLINESCSVPATH = "..\\..\\..\\..\\data\\airlines.csv";
     string BOARDINGGATESCSVPATH = "..\\..\\..\\..\\data\\boardingGates.csv";
@@ -46,9 +46,9 @@ void LoadAirlinesAndBoardingGates(Dictionary<string, Airline> AirlinesDict, Dict
         {
             string[] data = line.Split(",");
             Airline airline = new Airline(data[0], data[1]);
-            AirlinesDict.Add(airline.Code, airline);
+            terminal.AddAirline(airline);
         }
-        Console.WriteLine($"{AirlinesDict.Count} Airlines Loaded!");
+        Console.WriteLine($"{terminal.Airlines.Count} Airlines Loaded!");
     }
 
     using (StreamReader boardingGatesReader = new StreamReader(BOARDINGGATESCSVPATH))
@@ -60,9 +60,9 @@ void LoadAirlinesAndBoardingGates(Dictionary<string, Airline> AirlinesDict, Dict
         {
             string[] data = line.Split(",");
             BoardingGate boardingGate = new BoardingGate(data[0], bool.Parse(data[1]), bool.Parse(data[2]), bool.Parse(data[3]));
-            BoardingGateDict.Add(boardingGate.GateName, boardingGate);
+            terminal.AddBoardingGate(boardingGate);
         }
-        Console.WriteLine($"{BoardingGateDict.Count} Boarding Gates Loaded!");
+        Console.WriteLine($"{terminal.BoardingGates.Count} Boarding Gates Loaded!");
     }
 
 }
@@ -142,13 +142,13 @@ void DisplayFlights(Dictionary<string, Flight> flightsdict, Dictionary<string, A
     }
 }
 //Feature 4 : yinuo
-void DisplayBoardingGates(Dictionary<string, BoardingGate> BoardingGateDict)
+void DisplayBoardingGates(Terminal terminal)
 {
     Console.WriteLine("=============================================");
     Console.WriteLine("List of Boarding Gates for Changi Airport Terminal 5");
     Console.WriteLine("=============================================");
     Console.WriteLine("Gate Name       DDJB                   CFFT                   LWTT");
-    foreach (BoardingGate boardingGate in BoardingGateDict.Values)
+    foreach (BoardingGate boardingGate in terminal.BoardingGates.Values)
     {
         Console.WriteLine(boardingGate);
     }
@@ -384,14 +384,14 @@ void CreateFlight(Dictionary<string, Flight> FlightsDict, Dictionary<string, Air
     while (addanother == "Y");
 }
 //Feature 7 : yinuo (Option 5)
-void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
+void DisplayFullFlightDetails(Terminal terminal)
 {
     string selectedAirlineCode;
     Console.WriteLine("=============================================");
     Console.WriteLine("List of Flights for Changi Airport Terminal 5");
     Console.WriteLine("=============================================");
     Console.WriteLine("Airline Code    Airline Name");
-    foreach (Airline airline in AirlinesDict.Values)
+    foreach (Airline airline in terminal.Airlines.Values)
     {
         Console.WriteLine($"{airline.Code.PadRight(16)}{airline.Name}");
     }
@@ -414,7 +414,7 @@ void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
     }
 
     Airline airlineQuery = new Airline();
-    foreach (Airline airline in AirlinesDict.Values)
+    foreach (Airline airline in terminal.Airlines.Values)
     {
         if (selectedAirlineCode == airline.Code)
         {
@@ -432,26 +432,26 @@ void DisplayFullFlightDetails(Dictionary<string, Airline> AirlinesDict)
     }
 }
 //Feature 8 (8.1, 8.2) : yinuo
-void ModifyFlightDetails(Dictionary<string, Airline> airlineDict, Dictionary<string, BoardingGate> boardingGateDict)
+void ModifyFlightDetails(Terminal terminal)
 {
     Console.WriteLine("=============================================");
     Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
     Console.WriteLine("=============================================");
     Console.WriteLine("Airline Code    Airline Name");
-    foreach (Airline airline in airlineDict.Values)
+    foreach (Airline airline in terminal.Flights.Values)
     {
         Console.WriteLine($"{airline.Code.PadRight(16)}{airline.Name}");
     }
     Console.WriteLine("Enter Airline Code:");
     string selectedAirline = Console.ReadLine().ToUpper();
     
-    if (airlineDict.TryGetValue(selectedAirline, out Airline selectedAirlineObj))
+    if (terminal.Airlines.TryGetValue(selectedAirline, out Airline selectedAirlineObj))
     {
-        Console.WriteLine($"List of Flights for {airlineDict[selectedAirline].Code}");
+        Console.WriteLine($"List of Flights for {terminal.Airlines[selectedAirline].Code}");
         Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
         foreach (Flight flight in selectedAirlineObj.Flights.Values)
         {
-            Console.WriteLine($"{flight.FlightNumber.PadRight(16)}{airlineDict[selectedAirline].Name.PadRight(23)}{flight.Origin.PadRight(23)}{flight.Destination.PadRight(23)}{flight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
+            Console.WriteLine($"{flight.FlightNumber.PadRight(16)}{terminal.Airlines[selectedAirline].Name.PadRight(23)}{flight.Origin.PadRight(23)}{flight.Destination.PadRight(23)}{flight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
         }
         Console.WriteLine("Choose an existing Flight to modify or delete:");
         string flightToEdit = Console.ReadLine().ToUpper();
@@ -489,7 +489,7 @@ void ModifyFlightDetails(Dictionary<string, Airline> airlineDict, Dictionary<str
                     Console.WriteLine($"Status: {selectedFlight.Status}");
                     Console.WriteLine($"Special Request Code: {selectedFlight.GetType().Name}"); //Fix this, returns the type not special code
                     string assignedGate = "Unassigned";
-                    foreach (BoardingGate bGate in boardingGateDict.Values)
+                    foreach (BoardingGate bGate in terminal.BoardingGates.Values)
                     {
                         if (bGate.Flight == selectedFlight)
                         {
@@ -559,7 +559,7 @@ void ModifyFlightDetails(Dictionary<string, Airline> airlineDict, Dictionary<str
                 else if (modifyOption == "4")
                 {
                     BoardingGate? currentGate = new BoardingGate();
-                    foreach (BoardingGate gate in boardingGateDict.Values)
+                    foreach (BoardingGate gate in terminal.BoardingGates.Values)
                     {
                         if (gate.Flight == selectedFlight)
                         {
@@ -569,7 +569,7 @@ void ModifyFlightDetails(Dictionary<string, Airline> airlineDict, Dictionary<str
                     Console.WriteLine($"Current Boarding Gate: {currentGate.GateName ?? "Unassigned"}");
                     Console.WriteLine("Enter new Boarding Gate:");
                     string newGate = Console.ReadLine().ToUpper();
-                    foreach (BoardingGate bGate in boardingGateDict.Values)
+                    foreach (BoardingGate bGate in terminal.BoardingGates.Values)
                     {
                         if (bGate.GateName == newGate)
                         {
@@ -788,10 +788,11 @@ Dictionary<string, Flight> FlightsDict = new Dictionary<string, Flight>();
 
 
 //Main Program
-LoadAirlinesAndBoardingGates(AirlinesDict, BoardingGateDict);
-LoadFlights(FlightsDict);
-AssignFlightToAIrline(FlightsDict, AirlinesDict);
 Terminal Terminal5 = new Terminal("Terminal 5");
+LoadAirlinesAndBoardingGates(Terminal5);
+/*LoadFlights(FlightsDict);
+AssignFlightToAIrline(FlightsDict, AirlinesDict);*/
+
 
 
 
@@ -830,7 +831,7 @@ while (true)
     }
     else if (option == 2)
     {
-        DisplayBoardingGates(BoardingGateDict);
+        DisplayBoardingGates(Terminal5);
         WhiteSpace();
     }
     else if (option == 3)
@@ -845,11 +846,11 @@ while (true)
     }
     else if (option == 5)
     {
-        DisplayFullFlightDetails(AirlinesDict); //Partial implementation, requires fix
+        DisplayFullFlightDetails(Terminal5);
     }
     else if (option == 6)
     {
-        ModifyFlightDetails(AirlinesDict, BoardingGateDict);
+        ModifyFlightDetails(Terminal5);
     }
     else if (option == 7)
     {

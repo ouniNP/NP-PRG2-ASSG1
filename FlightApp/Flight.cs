@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace FlightApp
 {
-    class Flight : Airline,IComparable<Flight>
+    class Flight : Airline, IComparable<Flight>
     {
         public string FlightNumber { get; set; }
         public string Origin { get; set; }
@@ -41,12 +41,12 @@ namespace FlightApp
         {
             const double BOARDING_GATE_BASE_FEE = 300;
             double totalFees = 0;
-            if (this.Destination.ToUpper().Contains("SIN"))
+            if (this.Destination.ToUpper().Contains("SINGAPORE"))
             {
                 totalFees = BOARDING_GATE_BASE_FEE + 500;
                 return totalFees;
             }
-            else if (this.Origin.ToUpper().Contains("SIN"))
+            else if (this.Origin.ToUpper().Contains("SINGAPORE"))
             {
                 totalFees = BOARDING_GATE_BASE_FEE + 800;
                 return totalFees;
@@ -60,7 +60,7 @@ namespace FlightApp
 
         public override string ToString()
         {
-            return $"{FlightNumber}          Singapore Airlines     {Origin}            {Destination}        {ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}";
+            return $"{FlightNumber}     {Origin}            {Destination}        {ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}";
         }
 
         public int CompareTo(Flight? other)

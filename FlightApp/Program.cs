@@ -704,7 +704,7 @@ void ProcessUnassignedFlightsToBoardingGates(Terminal terminal)
 
         }
     }
-    float percentageAssignedAutomatically = flightsSuccessCount == 0 ? 100 : ((float)flightsSuccessCount / unassignedCount);
+    float percentageAssignedAutomatically = flightsSuccessCount == 0 ? 100 : ((float)flightsSuccessCount / terminal.Flights.Count);
     Console.WriteLine($"Total of {flightsSuccessCount} flights have been successfully assigned to boarding gates.");
     Console.WriteLine();
     Console.WriteLine("Flight Details:");

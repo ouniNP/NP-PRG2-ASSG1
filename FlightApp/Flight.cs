@@ -25,6 +25,7 @@ namespace FlightApp
 
         public string Status { get; set; }
 
+        public Flight() {}
         public Flight(string flightNumber, string origin, string destination, DateTime expectedTime)
         {
             FlightNumber = flightNumber;

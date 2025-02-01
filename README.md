@@ -53,7 +53,7 @@ FlightApp is a C# application designed to manage airlines, boarding gates, and f
 ## How to Use
 
 1. **Download the Standalone Executable**  
-   - Visit the [Releases]([https://github.com/ouniNP/FlightApp/releases](https://github.com/ouniNP/S10269277_PRG2Assignment/releases/)) section of this repository.  
+   - Visit the [Releases](https://github.com/ouniNP/FlightApp/releases](https://github.com/ouniNP/S10269277_PRG2Assignment/releases/) section of this repository.  
    - Download the latest standalone `.exe` file.
 
 2. **Run the Program**  

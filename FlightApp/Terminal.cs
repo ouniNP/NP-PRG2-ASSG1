@@ -33,7 +33,7 @@ namespace FlightApp
         {
             if (!Airlines.ContainsKey(airline.Code))
             {
-                Airlines.Add(airline.Name, airline);
+                Airlines.Add(airline.Code, airline);
                 return true;
             }
             return false;
@@ -70,7 +70,7 @@ namespace FlightApp
         {
             foreach (Airline airline in Airlines.Values)
             {
-                Console.WriteLine($"{airline.Name}: ${airline.CalculateFees()}");
+                Console.WriteLine($"{airline.Code}: ${airline.CalculateFees()}");
             }
         }
 

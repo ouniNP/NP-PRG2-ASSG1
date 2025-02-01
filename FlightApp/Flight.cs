@@ -25,10 +25,6 @@ namespace FlightApp
 
         public string Status { get; set; }
 
-        public Flight()
-        {
-        }
-        //note to self: implement data validation for expected time (dd/MM/yyyy HH:mm)
         public Flight(string flightNumber, string origin, string destination, DateTime expectedTime)
         {
             FlightNumber = flightNumber;

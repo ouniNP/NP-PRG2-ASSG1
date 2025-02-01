@@ -666,7 +666,7 @@ void WhiteSpace()
     Console.WriteLine();
 }
 //Extra feature: yinuo
-/*void ProcessUnassignedFlightsToBoardingGates(Terminal terminal)
+void ProcessUnassignedFlightsToBoardingGates(Terminal terminal)
 {
     Queue<Flight> unassignedFlights = new Queue<Flight>();
     foreach (BoardingGate boardingGate in terminal.BoardingGates.Values)
@@ -680,7 +680,7 @@ void WhiteSpace()
     {
         Console.WriteLine(unassignedFlight);
     }
-}*/
+}
 //Extra feature : hongyi (option 8)
 void DisplayAirlineFee(Terminal terminal)
 {

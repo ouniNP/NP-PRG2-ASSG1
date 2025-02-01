@@ -793,17 +793,12 @@ void RemoveFlightsFromBoardingGate(Terminal terminal)
     Console.WriteLine("All flights have been removed from the boarding gates.");
 }
 
-
 //Collections
-Dictionary<string, Airline> AirlinesDict = new Dictionary<string, Airline>();
-Dictionary<string, BoardingGate> BoardingGateDict = new Dictionary<string, BoardingGate>();
-Dictionary<string, Flight> FlightsDict = new Dictionary<string, Flight>();
-
-
+Terminal Terminal5 = new Terminal("Terminal 5");
 
 
 //Main Program
-Terminal Terminal5 = new Terminal("Terminal 5");
+
 LoadAirlinesAndBoardingGates(Terminal5);
 LoadFlights(Terminal5);
 AssignFlightToAIrline(Terminal5);

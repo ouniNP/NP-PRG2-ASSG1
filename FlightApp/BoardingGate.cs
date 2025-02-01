@@ -35,7 +35,26 @@ namespace FlightApp
         {
             return Flight.CalculateFees(); //not sure about this line 
         }
-
+        public bool SupportsFlight(Flight flight)
+        {
+            if (flight is DDJBFlight && this.SupportsDDJB)
+            {
+                return true;
+            }
+            else if (flight is CFFTFlight && this.SupportsCFFT)
+            {
+                return true;
+            }
+            else if (flight is LWTTFlight && this.SupportsLWTT)
+            {
+                return true;
+            }
+            else if (flight is NORMFlight)
+            {
+                return true;
+            }
+            return false;
+        }
         public override string ToString()
         {
             return $"{this.GateName.PadRight(16)}{this.SupportsCFFT.ToString().PadRight(23)}{this.SupportsDDJB.ToString().PadRight(23)}{this.SupportsLWTT.ToString()}";

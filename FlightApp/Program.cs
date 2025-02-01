@@ -10,6 +10,7 @@ using FlightApp;
 using System.ComponentModel;
 using System.ComponentModel.Design;
 using System.Globalization;
+using System.Runtime.InteropServices;
 
 void MainMenu()
 {
@@ -24,7 +25,7 @@ void MainMenu()
     Console.WriteLine("6.  Modify Flight Details");
     Console.WriteLine("7.  Display Flight Schedule");
     Console.WriteLine("8.  Display the total fee per");
-    Console.WriteLine("9.  Assign random boarding gates");
+    Console.WriteLine("9.  Bulk Assign Flights to Boarding Gates");
     Console.WriteLine("10. Remove all flights from boarding gates");
     Console.WriteLine("0.  Exit");
     Console.WriteLine();
@@ -669,17 +670,51 @@ void WhiteSpace()
 void ProcessUnassignedFlightsToBoardingGates(Terminal terminal)
 {
     Queue<Flight> unassignedFlights = new Queue<Flight>();
-    foreach (BoardingGate boardingGate in terminal.BoardingGates.Values)
-    { 
-        foreach (Flight flight in terminal.Flights.Values)
+    terminal.Flights.Values.ToList().ForEach(flight =>
+    {
+        if (terminal.BoardingGates.Values.All(gate => gate.Flight != flight))
         {
-            if (flight.fl)
+            unassignedFlights.Enqueue(flight);
+        }
+    });
+
+    int unassignedCount = unassignedFlights.Count;
+    int flightsSuccessCount = 0;
+
+    List<Flight> FlightsAssignedSuccessfully = new List<Flight>();
+    List<BoardingGate> GateAlreadyAssigned = new List<BoardingGate>();
+    while (unassignedFlights.Count != 0)
+    {
+        Flight flightToAssign = unassignedFlights.Dequeue();
+        foreach (BoardingGate gate in terminal.BoardingGates.Values)
+        {
+            if (gate.Flight != null)
+            {
+                GateAlreadyAssigned.Add(gate);
+                continue;
+            }
+            if (gate.SupportsFlight(flightToAssign) && gate.Flight is null)
+            {
+                gate.Flight = flightToAssign;
+                Console.WriteLine($"Flight {flightToAssign.FlightNumber} has been assigned to boarding gate {gate.GateName}.");
+                flightsSuccessCount++;
+                FlightsAssignedSuccessfully.Add(flightToAssign);
+                break;
+            }
+
         }
     }
-    foreach (Flight unassignedFlight in unassignedFlights)
+    float percentageAssignedAutomatically = flightsSuccessCount == 0 ? 100 : ((float)flightsSuccessCount / unassignedCount);
+    Console.WriteLine($"Total of {flightsSuccessCount} flights have been successfully assigned to boarding gates.");
+    Console.WriteLine();
+    Console.WriteLine("Flight Details:");
+    Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
+    foreach (Flight successfulFlight in FlightsAssignedSuccessfully)
     {
-        Console.WriteLine(unassignedFlight);
+        Console.WriteLine($"{successfulFlight.FlightNumber,-16}{terminal.GetAirlineFromFlight(successfulFlight).Name,-23}{successfulFlight.Origin,-23}{successfulFlight.Destination,-23}{successfulFlight.ExpectedTime}");
     }
+    Console.WriteLine($"Percentage of flights processed automatically: {percentageAssignedAutomatically.ToString("P1")}");
+
 }
 //Extra feature : hongyi (option 8)
 void DisplayAirlineFee(Terminal terminal)
@@ -874,7 +909,7 @@ while (true)
     }
     else if (option == 9)
     {
-        AssignFlightsToBoardingGate(Terminal5);
+        ProcessUnassignedFlightsToBoardingGates(Terminal5);
         WhiteSpace();
 
     }
@@ -883,11 +918,6 @@ while (true)
         RemoveFlightsFromBoardingGate(Terminal5);
         WhiteSpace();
 
-    }
-    else if (option == 11)
-    { 
-        //ProcessUnassignedFlightsToBoardingGates(Terminal5);
-        WhiteSpace();
     }
     else if (option == 0)
     {

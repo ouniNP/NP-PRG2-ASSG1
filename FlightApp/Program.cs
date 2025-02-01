@@ -169,31 +169,49 @@ void AssignBoardingGateToFlight(Terminal terminal)
     }
     Flight SelectedFlight = terminal.Flights[flightnumber];
 
-    
+
     //Getting boardinggate (validation completed)
-    Console.WriteLine("Enter Boarding Gate Name:");
-    string gatename = Console.ReadLine()?.Trim().ToUpper();  //ensure that null inputs and lower case inputs are being handled 
-    if (string.IsNullOrEmpty(gatename) || !terminal.BoardingGates.ContainsKey(gatename))
+    BoardingGate SelectedBoardingGate;
+    while (true)
     {
-        Console.WriteLine("This boarding gate does not exist, directing back to the main menu.");
-        return;
-    }
-    BoardingGate SelectedBoardingGate = terminal.BoardingGates[gatename];
+        Console.WriteLine("Enter Boarding Gate Name:");
+        string gatename = Console.ReadLine()?.Trim().ToUpper(); // Handle null and lowercase inputs
 
+        if (string.IsNullOrEmpty(gatename) || !terminal.BoardingGates.ContainsKey(gatename))
+        {
+            Console.WriteLine("This boarding gate does not exist. Please enter a valid gate.");
+            continue;
+        }
+        SelectedBoardingGate = terminal.BoardingGates[gatename];
 
-    //check for special request
-    if (SelectedFlight is DDJBFlight)
-    {
-        SpecialRequestCode = "DDJB";
+        // Check for special request and gate support
+        bool isValidGate = true;
+        if (SelectedFlight is DDJBFlight && !SelectedBoardingGate.SupportsDDJB)
+        {
+            Console.WriteLine("This boarding gate does not support DDJB flights. Please enter another gate.");
+            isValidGate = false;
+        }
+        else if (SelectedFlight is CFFTFlight && !SelectedBoardingGate.SupportsCFFT)
+        {
+            Console.WriteLine("This boarding gate does not support CFFT flights. Please enter another gate.");
+            isValidGate = false;
+        }
+        else if (SelectedFlight is LWTTFlight && !SelectedBoardingGate.SupportsLWTT)
+        {
+            Console.WriteLine("This boarding gate does not support LWTT flights. Please enter another gate.");
+            isValidGate = false;
+        }
+
+        // If the selected gate is valid, break out of the loop
+        if (isValidGate)
+            break;
     }
-    else if (SelectedFlight is CFFTFlight)
-    {
-        SpecialRequestCode = "CFFT";
-    }
-    else if (SelectedFlight is LWTTFlight)
-    {
-        SpecialRequestCode = "LWTT";
-    }
+
+    // Determine Special Request Code
+    if (SelectedFlight is DDJBFlight) SpecialRequestCode = "DDJB";
+    else if (SelectedFlight is CFFTFlight) SpecialRequestCode = "CFFT";
+    else if (SelectedFlight is LWTTFlight) SpecialRequestCode = "LWTT";
+
 
 
     //Display flight
@@ -693,7 +711,7 @@ void ProcessUnassignedFlightsToBoardingGates(Terminal terminal)
                 GateAlreadyAssigned.Add(gate);
                 continue;
             }
-            if (gate.SupportsFlight(flightToAssign) && gate.Flight is null)
+            //if (gate.SupportsFlight(flightToAssign) && gate.Flight is null)
             {
                 gate.Flight = flightToAssign;
                 Console.WriteLine($"Flight {flightToAssign.FlightNumber} has been assigned to boarding gate {gate.GateName}.");

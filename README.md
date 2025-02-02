@@ -1,6 +1,6 @@
 # FlightApp - Terminal 5 Management System
 
-## Release Notes (v0.0.1-alpha)
+## Release Notes (v1)
 
 ### Overview
 FlightApp is a C# application designed to manage airlines, boarding gates, and flights at Terminal 5. It provides an interactive menu for users to perform various operations, such as loading data, managing flights, assigning boarding gates, and calculating fees. The application supports both **basic** and **advanced features** for comprehensive terminal management.

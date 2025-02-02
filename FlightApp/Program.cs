@@ -105,6 +105,7 @@ void LoadFlights(Terminal terminal)
         Console.WriteLine($"{terminal.Flights.Count} Flights Loaded!");
     }
 }
+
 //Feature 3.1 : hongyi (completed)
 void AssignFlightToAIrline(Terminal terminal)
 {
@@ -142,6 +143,7 @@ void DisplayFlights(Terminal terminal)
         }
     }
 }
+
 //Feature 4 : yinuo
 void DisplayBoardingGates(Terminal terminal)
 {
@@ -154,6 +156,7 @@ void DisplayBoardingGates(Terminal terminal)
         Console.WriteLine(boardingGate);
     }
 }
+
 //Feature 5 : hongyi (option 3) (completed with validation)
 void AssignBoardingGateToFlight(Terminal terminal)
 {
@@ -265,6 +268,7 @@ void AssignBoardingGateToFlight(Terminal terminal)
     SelectedBoardingGate.Flight = SelectedFlight;
     Console.WriteLine($"Flight {SelectedFlight.FlightNumber} has been assigned to Boarding Gate {SelectedBoardingGate.GateName}!");
 }
+
 //Feature 6 : hongyi (option 4) (completed with validation)
 void CreateFlight(Terminal terminal)
 {
@@ -384,6 +388,7 @@ void CreateFlight(Terminal terminal)
     }
     while (addanother == "Y");
 }
+
 //Feature 7 : yinuo (Option 5)
 void DisplayFullFlightDetails(Terminal terminal)
 {
@@ -396,50 +401,37 @@ void DisplayFullFlightDetails(Terminal terminal)
     {
         Console.WriteLine($"{airline.Code.PadRight(16)}{airline.Name}");
     }
-    while (true)
-    {
-        try
-        {
-            Console.Write("Enter Airline Code: ");
-            selectedAirlineCode = Console.ReadLine().ToUpper();
-            break;
-        }
-        catch (FormatException fe)
-        {
-            Console.WriteLine(fe.Message);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e.Message);
-        }
-    }
-
+    selectedAirlineCode = Console.ReadLine().ToUpper();
     Airline airlineQuery = new Airline();
     foreach (Airline airline in terminal.Airlines.Values)
     {
         if (selectedAirlineCode == airline.Code)
         {
             airlineQuery = airline;
+            Console.WriteLine("=============================================");
+            Console.WriteLine($"Airline Name: {airlineQuery.Name}");
+            Console.WriteLine("=============================================");
+            Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
+            foreach (Flight flight in airlineQuery.Flights.Values)
+            {
+                Console.WriteLine($"{flight.FlightNumber.PadRight(16)}{airlineQuery.Name.PadRight(23)}{flight.Origin.PadRight(23)}{flight.Destination.PadRight(23)}{flight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
+            }
             break;
         }
+        Console.WriteLine("Invalid Airline Code entered. Try again.");
     }
-    Console.WriteLine("=============================================");
-    Console.WriteLine($"Airline Name: {airlineQuery.Name}");
-    Console.WriteLine("=============================================");
-    Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
-    foreach (Flight flight in airlineQuery.Flights.Values)
-    {
-        Console.WriteLine($"{flight.FlightNumber.PadRight(16)}{airlineQuery.Name.PadRight(23)}{flight.Origin.PadRight(23)}{flight.Destination.PadRight(23)}{flight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
-    }
+    
 }
-//Feature 8 (8.1, 8.2) : yinuo
+
+
+//Feature 8 : yinuo
 void ModifyFlightDetails(Terminal terminal)
 {
     Console.WriteLine("=============================================");
     Console.WriteLine("List of Airlines for Changi Airport Terminal 5");
     Console.WriteLine("=============================================");
     Console.WriteLine("Airline Code    Airline Name");
-    foreach (Airline airline in terminal.Flights.Values)
+    foreach (Airline airline in terminal.Airlines.Values)
     {
         Console.WriteLine($"{airline.Code.PadRight(16)}{airline.Name}");
     }
@@ -488,7 +480,14 @@ void ModifyFlightDetails(Terminal terminal)
                     Console.WriteLine($"Destination: {selectedFlight.Destination}");
                     Console.WriteLine($"Expected Time: {selectedFlight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
                     Console.WriteLine($"Status: {selectedFlight.Status}");
-                    Console.WriteLine($"Special Request Code: {selectedFlight.GetType().Name}"); //Fix this, returns the type not special code
+                    if (selectedFlight is CFFTFlight || selectedFlight is DDJBFlight || selectedFlight is LWTTFlight)
+                    {
+                        Console.WriteLine($"Special Request Code: {selectedFlight.ToString()}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Special Request Code: None");
+                    }
                     string assignedGate = "Unassigned";
                     foreach (BoardingGate bGate in terminal.BoardingGates.Values)
                     {
@@ -574,15 +573,74 @@ void ModifyFlightDetails(Terminal terminal)
                     {
                         if (bGate.GateName == newGate)
                         {
-                            if (bGate.Flight is null && bGate.Flight != selectedFlight)
+                            if (selectedFlight is NORMFlight)
                             {
-                                bGate.Flight = selectedFlight;
-                                Console.WriteLine("Boarding Gate updated!");
+                                if (bGate.Flight is null && bGate.Flight != selectedFlight)
+                                {
+                                    bGate.Flight = selectedFlight;
+                                    Console.WriteLine("Boarding Gate updated!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Operation failed.");
+                                    Console.WriteLine("This might have been due to:");
+                                    Console.WriteLine("-The boarding gate is already assigned to another flight.");
+                                    Console.WriteLine("The boarding gate is already assigned to this flight.");
+                                }
                             }
                             else
-                            {
-                                Console.WriteLine("Error, boarding gate is already assigned to another flight.");
+                            { 
+                                if (selectedFlight is CFFTFlight)
+                                {
+                                    if (bGate.Flight is null && bGate.SupportsCFFT && bGate.Flight != selectedFlight)
+                                    {
+                                        bGate.Flight = selectedFlight;
+                                        Console.WriteLine("Boarding Gate updated!");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Operation failed.");
+                                        Console.WriteLine("This might have been due to:");
+                                        Console.WriteLine("-The boarding gate is already assigned to another flight.");
+                                        Console.WriteLine("-The boarding gate is already assigned to this flight.");
+                                        Console.WriteLine("-The boarding gate does not support flights with request code CFFT");
+                                    }
+                                    
+                                }
+                                else if (selectedFlight is DDJBFlight)
+                                {
+                                    if (bGate.Flight is null && bGate.SupportsDDJB && bGate.Flight != selectedFlight)
+                                    {
+                                        bGate.Flight = selectedFlight;
+                                        Console.WriteLine("Boarding Gate updated!");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Operation failed.");
+                                        Console.WriteLine("This might have been due to:");
+                                        Console.WriteLine("-The boarding gate is already assigned to another flight.");
+                                        Console.WriteLine("-The boarding gate is already assigned to this flight.");
+                                        Console.WriteLine("-The boarding gate does not support flights with request code DDJB");
+                                    }
+                                }
+                                else if (selectedFlight is LWTTFlight)
+                                {
+                                    if (bGate.Flight is null && bGate.SupportsLWTT && bGate.Flight != selectedFlight)
+                                    {
+                                        bGate.Flight = selectedFlight;
+                                        Console.WriteLine("Boarding Gate updated!");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Operation failed.");
+                                        Console.WriteLine("This might have been due to:");
+                                        Console.WriteLine("-The boarding gate is already assigned to another flight.");
+                                        Console.WriteLine("-The boarding gate is already assigned to this flight.");
+                                        Console.WriteLine("-The boarding gate does not support flights with request code LWTT");
+                                    }
+                                }
                             }
+                            
                         }
                     }
                 }
@@ -670,29 +728,24 @@ void WhiteSpace()
 void ProcessUnassignedFlightsToBoardingGates(Terminal terminal)
 {
     Queue<Flight> unassignedFlights = new Queue<Flight>();
-    terminal.Flights.Values.ToList().ForEach(flight =>
+    foreach (Flight flight in terminal.Flights.Values.ToList())
     {
-        if (terminal.BoardingGates.Values.All(gate => gate.Flight != flight))
+        bool isUnassigned = terminal.BoardingGates.Values.All(gate => gate.Flight != flight);
+        if (isUnassigned)
         {
             unassignedFlights.Enqueue(flight);
         }
-    });
-
+    }
+    
     int unassignedCount = unassignedFlights.Count;
     int flightsSuccessCount = 0;
 
     List<Flight> FlightsAssignedSuccessfully = new List<Flight>();
-    List<BoardingGate> GateAlreadyAssigned = new List<BoardingGate>();
-    while (unassignedFlights.Count != 0)
+    while (unassignedFlights.Count > 0)
     {
         Flight flightToAssign = unassignedFlights.Dequeue();
         foreach (BoardingGate gate in terminal.BoardingGates.Values)
         {
-            if (gate.Flight != null)
-            {
-                GateAlreadyAssigned.Add(gate);
-                continue;
-            }
             if (gate.SupportsFlight(flightToAssign) && gate.Flight is null)
             {
                 gate.Flight = flightToAssign;
@@ -714,7 +767,10 @@ void ProcessUnassignedFlightsToBoardingGates(Terminal terminal)
         Console.WriteLine($"{successfulFlight.FlightNumber,-16}{terminal.GetAirlineFromFlight(successfulFlight).Name,-23}{successfulFlight.Origin,-23}{successfulFlight.Destination,-23}{successfulFlight.ExpectedTime}");
     }
     Console.WriteLine($"Percentage of flights processed automatically: {percentageAssignedAutomatically.ToString("P1")}");
-
+    if (flightsSuccessCount != unassignedCount)
+    {
+        Console.WriteLine($"{unassignedCount - flightsSuccessCount} flights could not be assigned automatically. Please try manual assignment instead.");
+    }
 }
 //Extra feature : hongyi (option 8)
 void DisplayAirlineFee(Terminal terminal)
@@ -847,25 +903,25 @@ WhiteSpace();
 //Main Loop
 while (true)
 {
-    MainMenu();
     int option;
     while (true)
     {
         try
         {
+            MainMenu();
             Console.WriteLine("Please select your option:");
             option = Convert.ToInt32(Console.ReadLine());
             break;
 
         }
-        catch (FormatException fe)
+        catch (FormatException)
         {
-            Console.WriteLine(fe.Message);
+            Console.WriteLine("Your input is invalid. Maybe try entering just a number?");
             Console.WriteLine();
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e.Message);
+            Console.WriteLine("Your number is too big/small for the program. Maybe try entering a valid number instead?");
             Console.WriteLine();
         }
     }

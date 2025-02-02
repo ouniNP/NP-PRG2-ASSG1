@@ -24,7 +24,7 @@ void MainMenu()
     Console.WriteLine("5.  Display Airline Flights");
     Console.WriteLine("6.  Modify Flight Details");
     Console.WriteLine("7.  Display Flight Schedule");
-    Console.WriteLine("8.  Display the total fee per");
+    Console.WriteLine("8.  Display the total fee per Airline");
     Console.WriteLine("9.  Bulk Assign Flights to Boarding Gates");
     Console.WriteLine("10. Remove all flights from boarding gates");
     Console.WriteLine("0.  Exit");

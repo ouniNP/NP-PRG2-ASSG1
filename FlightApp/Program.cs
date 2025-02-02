@@ -986,10 +986,12 @@ while (true)
     else if (option == 5)
     {
         DisplayFullFlightDetails(Terminal5);
+        WhiteSpace();
     }
     else if (option == 6)
     {
         ModifyFlightDetails(Terminal5);
+        WhiteSpace();
     }
     else if (option == 7)
     {

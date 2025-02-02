@@ -783,7 +783,7 @@ void ProcessUnassignedFlightsToBoardingGates(Terminal terminal)
 
         }
     }
-    float percentageAssignedAutomatically = flightsSuccessCount == 0 ? 100 : ((float)flightsSuccessCount / terminal.Flights.Count);
+    float percentageAssignedAutomatically = flightsSuccessCount == 0 ? 0 : ((float)flightsSuccessCount / terminal.Flights.Count);
     Console.WriteLine($"Total of {flightsSuccessCount} flights have been successfully assigned to boarding gates.");
     Console.WriteLine();
     Console.WriteLine("Flight Details:");
@@ -798,6 +798,7 @@ void ProcessUnassignedFlightsToBoardingGates(Terminal terminal)
         Console.WriteLine($"{unassignedCount - flightsSuccessCount} flights could not be assigned automatically. Please try manual assignment instead.");
     }
 }
+
 //Extra feature : hongyi (option 8)
 void DisplayAirlineFee(Terminal terminal)
 {
@@ -877,7 +878,6 @@ void DisplayAirlineFee(Terminal terminal)
     Console.WriteLine("Final Total of Airline Fees (after discounts): $" + finaltoalfee);
     Console.WriteLine("Percentage of Discounts over Final Total Fees: " + discountpercentage.ToString("F2") + "%");
 }
-
 
 //testing for extra feature : hong yi (option 10 )
 void RemoveFlightsFromBoardingGate(Terminal terminal)

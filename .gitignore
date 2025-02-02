@@ -2,5 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
-/FlightApp/.vs/FlightApp
+.vs/
+obj/
+/FlightApp/bin/
+FlightApp\bin 

@@ -5,7 +5,7 @@
 //==========================================================
 
 
-//Functions
+//Dependencies
 using FlightApp;
 using System.ComponentModel;
 using System.ComponentModel.Design;

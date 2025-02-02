@@ -423,21 +423,45 @@ void DisplayFullFlightDetails(Terminal terminal)
     {
         selectedAirlineCode = Console.ReadLine().ToUpper();
 
-        Airline airlineQuery = new Airline();
+        Airline airlineQuery = null;
         foreach (Airline airline in terminal.Airlines.Values)
         {
             if (selectedAirlineCode == airline.Code)
             {
                 airlineQuery = airline;
-                Console.WriteLine("=============================================");
-                Console.WriteLine($"Airline Name: {airlineQuery.Name}");
-                Console.WriteLine("=============================================");
-                Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
-                foreach (Flight flight in airlineQuery.Flights.Values)
-                {
-                    Console.WriteLine($"{flight.FlightNumber.PadRight(16)}{airlineQuery.Name.PadRight(23)}{flight.Origin.PadRight(23)}{flight.Destination.PadRight(23)}{flight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
-                }
                 break;
+            }
+        }
+        if (airlineQuery is null)
+        {
+            Console.WriteLine("Invalid Airline Code");
+            return;
+        }
+        if (airlineQuery is not null)
+        {
+            Console.WriteLine("=============================================");
+            Console.WriteLine($"Airline Name: {airlineQuery.Name}");
+            Console.WriteLine("=============================================");
+            Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time     Request Code    Boarding Gate");
+            foreach (Flight flight in airlineQuery.Flights.Values)
+            {
+                BoardingGate flightGate = null;
+                foreach (BoardingGate boardingGate in terminal.BoardingGates.Values)
+                {
+                    if (boardingGate.Flight == flight)
+                    {
+                        flightGate = boardingGate;
+                        break;
+                    }
+                }
+                if (flight is not NORMFlight)
+                {
+                    Console.WriteLine($"{flight.FlightNumber.PadRight(16)}{airlineQuery.Name.PadRight(23)}{flight.Origin.PadRight(23)}{flight.Destination.PadRight(23)}{flight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt").PadRight(36)}{flight.ToString().PadRight(16)}{flightGate.GateName.ToString()}");
+                }
+                else
+                {
+                    Console.WriteLine($"{flight.FlightNumber.PadRight(16)}{airlineQuery.Name.PadRight(23)}{flight.Origin.PadRight(23)}{flight.Destination.PadRight(23)}{flight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt").PadRight(36)}{"None".PadRight(16)}{flightGate.GateName.ToString()}");
+                }
             }
         }
     }
@@ -787,10 +811,19 @@ void ProcessUnassignedFlightsToBoardingGates(Terminal terminal)
     Console.WriteLine($"Total of {flightsSuccessCount} flights have been successfully assigned to boarding gates.");
     Console.WriteLine();
     Console.WriteLine("Flight Details:");
-    Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
+    Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time     Status          Boarding Gate");
     foreach (Flight successfulFlight in FlightsAssignedSuccessfully)
     {
-        Console.WriteLine($"{successfulFlight.FlightNumber,-16}{terminal.GetAirlineFromFlight(successfulFlight).Name,-23}{successfulFlight.Origin,-23}{successfulFlight.Destination,-23}{successfulFlight.ExpectedTime}");
+        BoardingGate flightGate = null;
+        foreach (BoardingGate boardingGate in terminal.BoardingGates.Values)
+        {
+            if (boardingGate.Flight == successfulFlight)
+            {
+                flightGate = boardingGate;
+                break;
+            }
+        }
+        Console.WriteLine($"{successfulFlight.FlightNumber,-16}{terminal.GetAirlineFromFlight(successfulFlight).Name,-23}{successfulFlight.Origin,-23}{successfulFlight.Destination,-23}{successfulFlight.ExpectedTime.ToString().PadRight(36)}{successfulFlight.Status,-16}{flightGate.GateName.ToString()}");
     }
     Console.WriteLine($"Percentage of flights processed automatically: {percentageAssignedAutomatically.ToString("P1")}");
     if (flightsSuccessCount != unassignedCount)

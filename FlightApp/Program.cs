@@ -878,29 +878,8 @@ void DisplayAirlineFee(Terminal terminal)
     Console.WriteLine("Percentage of Discounts over Final Total Fees: " + discountpercentage.ToString("F2") + "%");
 }
 
-//testing for extra feature : hong yi (option 9 )
-void AssignFlightsToBoardingGate(Terminal terminal)
-{
-    int i  = 0;
-    var flightsList = terminal.Flights.Values.ToList();  // Convert to list for easy indexing
-    foreach (BoardingGate boardingGate in terminal.BoardingGates.Values)
-    {
-        if (i < flightsList.Count)
-        {
-            boardingGate.Flight = flightsList[i];  // Assign the flight to the boarding gate
-            i++;
-        }
-        else
-        {
-            Console.WriteLine("Not enough flights to assign to all boarding gates.");
-            Console.WriteLine("All avaialble flights have been assigned.");
-            break;
-        }
-    }
-}
 
 //testing for extra feature : hong yi (option 10 )
-
 void RemoveFlightsFromBoardingGate(Terminal terminal)
 {
     foreach (BoardingGate boardingGate in terminal.BoardingGates.Values)

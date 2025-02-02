@@ -46,7 +46,7 @@ namespace FlightApp
                 throw new Exception("Invalid operation: Your flight does NOT arrive to SIN/depart from SIN.");
             }
         }
-        public string ToString()
+        public override string ToString()
         {
             return "DDJB";
         }

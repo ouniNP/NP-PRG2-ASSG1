@@ -144,7 +144,7 @@ void DisplayFlights(Terminal terminal)
     }
 }
 
-//Feature 4 : yinuo
+//Feature 4 : yinuo (option 2)
 void DisplayBoardingGates(Terminal terminal)
 {
     Console.WriteLine("=============================================");
@@ -419,25 +419,33 @@ void DisplayFullFlightDetails(Terminal terminal)
     {
         Console.WriteLine($"{airline.Code.PadRight(16)}{airline.Name}");
     }
-    selectedAirlineCode = Console.ReadLine().ToUpper();
-    Airline airlineQuery = new Airline();
-    foreach (Airline airline in terminal.Airlines.Values)
+    try
     {
-        if (selectedAirlineCode == airline.Code)
+        selectedAirlineCode = Console.ReadLine().ToUpper();
+
+        Airline airlineQuery = new Airline();
+        foreach (Airline airline in terminal.Airlines.Values)
         {
-            airlineQuery = airline;
-            Console.WriteLine("=============================================");
-            Console.WriteLine($"Airline Name: {airlineQuery.Name}");
-            Console.WriteLine("=============================================");
-            Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
-            foreach (Flight flight in airlineQuery.Flights.Values)
+            if (selectedAirlineCode == airline.Code)
             {
-                Console.WriteLine($"{flight.FlightNumber.PadRight(16)}{airlineQuery.Name.PadRight(23)}{flight.Origin.PadRight(23)}{flight.Destination.PadRight(23)}{flight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
+                airlineQuery = airline;
+                Console.WriteLine("=============================================");
+                Console.WriteLine($"Airline Name: {airlineQuery.Name}");
+                Console.WriteLine("=============================================");
+                Console.WriteLine("Flight Number   Airline Name           Origin                 Destination            Expected Departure/Arrival Time");
+                foreach (Flight flight in airlineQuery.Flights.Values)
+                {
+                    Console.WriteLine($"{flight.FlightNumber.PadRight(16)}{airlineQuery.Name.PadRight(23)}{flight.Origin.PadRight(23)}{flight.Destination.PadRight(23)}{flight.ExpectedTime.ToString("dd/MM/yyyy hh:mm:ss tt")}");
+                }
+                break;
             }
-            break;
         }
-        Console.WriteLine("Invalid Airline Code entered. Try again.");
     }
+    catch (Exception e)
+    {
+        Console.WriteLine(e.Message);
+    }
+    
     
 }
 
